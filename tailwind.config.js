@@ -11,6 +11,8 @@ export default {
       },
       colors: {
         'darkGrey': "#0A0D17",
+        'shadeBlack': "#0A141F",
+        'deepBlue': "#14112D",        
         'lightGrey': "#180C2A",
         'purple': "#A604F2",
         'white': "#FFFFFF",
