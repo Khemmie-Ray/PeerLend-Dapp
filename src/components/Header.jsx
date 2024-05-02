@@ -17,7 +17,7 @@ const Header = () => {
     <header className="py-10 px-2 text-[18px] font-bold sticky top-0 bg-gradient-to-tr from-darkGrey to-lightGrey">
         <div className="w-[90%] mx-auto lg:flex justify-between items-center hidden">
         <div className="flex items-center w-1/3">
-        <img src={logoIcon} alt="" className="w-[30px] h-[30px]"/>
+        <NavLink to="/"><img src={logoIcon} alt="" className="w-[30px] h-[30px]"/></NavLink>
         <p>PeerLend</p>
         </div>
         <nav className="flex justify-between items-center w-2/3">
@@ -26,7 +26,7 @@ const Header = () => {
               <NavLink to="landingpage" className="mr-8">Dashboard</NavLink>
               )}
             <NavLink to="governance" className="mr-8  ">Governance</NavLink>
-            <NavLink>MarketPlace</NavLink>
+            <NavLink to="">MarketPlace</NavLink>
             </div>
             <div >
             <w3m-button />

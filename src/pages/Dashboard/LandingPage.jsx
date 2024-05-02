@@ -6,33 +6,23 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CreateRequest from '../../components/createRequest';
+import DepositCollateral from '../../components/DepositCollateral';
 import { useState } from 'react';
-// import LoanRequest from '../../components/LoanRequest';
-// import { Select } from 'radix/ui/themes';
 
 
 const LandingPage = () => {
+
+  const [tokenAdd, setTokenAdd] = useState("");
+  const [collateralAmount, setCollateralAmount] = useState(0);
+
+  function createData(regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action ) {
+    return { regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action };
+  }
+
+  const rows = [
+    createData(1, "0x9b***w45", "0x9b***w45", "0x9b***w45", 100000, "0.012%", 150100, "Accepted", "Accepted", "Accepted", "approve")
+  ];
   
-//   const selectOptions = <Select.Root defaultValue="None">
-//   <Select.Trigger />
-//   <Select.Content>
-//     <Select.Group>
-//       <Select.Label>Action</Select.Label>
-//       <Select.Item value="approve">Approve</Select.Item>
-//       <Select.Item value="decline">Decline</Select.Item>
-//     </Select.Group>  
-//   </Select.Content>
-// </Select.Root>
-const [tokenAdd, setTokenAdd] = useState("");
-const [collateralAmount, setCollateralAmount] = useState(0);
-
-function createData(regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action ) {
-  return { regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action };
-}
-
-const rows = [
-  createData(1, "0x9b***w45", "0x9b***w45", "0x9b***w45", 100000, "0.012%", 150100, "Accepted", "Accepted", "Accepted", "approve")
-];
 
   return (
     <main className='lg:w-[85%] md:w-[85%] w-[100%] mx-auto py-4'>
@@ -89,12 +79,7 @@ const rows = [
           </tbody>
         </table>
         </div>
-        <div className='lg:w-[35%] md:w-[35%] w-[100%] flex flex-col'>
-          <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Deposit collateral</p>
-          <input type="text" placeholder='Token Collateral Address' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"/>
-          <input type="text" placeholder='amount of collateral' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4" />
-          <button className="bg-purple py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4">Deposit &rarr;</button>
-        </div>
+       <DepositCollateral />
       </section>
       <section className='bg-bg-gray border-bg-ash rounded-lg p-10 '>
         <div className='bg-deepBlue rounded-lg p-6 flex flex-col lg:flex-row md:flex-row justify-between text-center text-[22px]'>
