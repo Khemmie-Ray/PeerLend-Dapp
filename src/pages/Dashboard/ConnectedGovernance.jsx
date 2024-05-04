@@ -1,17 +1,55 @@
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-
-import { useState } from 'react';
+import { useState } from "react";
+import { isSupportedChain } from "../../utility";
+import {
+    useWeb3ModalAccount,
+    useWeb3ModalProvider,
+  } from "@web3modal/ethers/react";
+import { getGovernanceContract } from "../../constants/contract";
+import { getProvider } from "../../constants/providers";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ConnectedGovernance = () => {
   const [value, setValue] = useState('Active');
+  const [allProposals, setAllProposals] = useState('')
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const { chainId } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+
+  async function handleProposals () {
+      if (!isSupportedChain(chainId)) return console.error("Wrong network");
+      const readWriteProvider = getProvider(walletProvider);
+      const signer = await readWriteProvider.getSigner();
+  
+      const contract = getGovernanceContract(signer);
+  
+      try {
+        const transaction = await contract.getAllProposals();
+        // if (contract) {
+            setAllProposals(transaction);   
+        // }
+       
+          console.log(allProposals)
+
+        if (transaction.status) {
+          return toast.success("Collateral deposit successful!", {
+              position: "top-center",
+            });
+        }
+  
+        toast.error("Collateral deposit failed!", {
+          position: "top-center",
+        });
+      } catch (error) {
+        toast.error("Collateral deposit failed", {
+            position: "top-center",
+          });
+        console.log(error)
+      }
+    };
 
   return (
     <main className="w-[90%] mx-auto"> 
@@ -35,7 +73,7 @@ const ConnectedGovernance = () => {
        </section>
        <section className='mt-14 flex flex-col lg:flex-row md:flex-row justify-between'>
         <div className="bg-bg-gray border border-bg-ash  p-8 rounded-lg lg:w-[60%] md:w-[60%] w-[100%]">
-        <h2 className='lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4'>Proposals</h2>
+        <h2 className='lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4' onClick={handleProposals}>Proposals</h2>
             <div className="bg-deepBlue flex flex-col lg:flex-row md:flex-row justify-between rounded-lg py-8 px-4 mb-4">
                 <div className='flex'>
                 <p className='mr-4'>100</p>

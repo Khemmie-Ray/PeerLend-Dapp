@@ -7,13 +7,45 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CreateRequest from '../../components/createRequest';
 import DepositCollateral from '../../components/DepositCollateral';
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import { isSupportedChain } from '../../utility';
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
+import { getProtocolContract } from '../../constants/contract';
+import { getProvider } from '../../constants/providers';
 
 
 const LandingPage = () => {
 
   const [tokenAdd, setTokenAdd] = useState("");
   const [collateralAmount, setCollateralAmount] = useState(0);
+  const { chainId } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+  const [loanRequests, setLoanRequests] = useState([])
+
+  async function handleGetRequests () {
+        if (!isSupportedChain(chainId)) return console.error("Wrong network");
+        const readWriteProvider = getProvider(walletProvider);
+        const signer = await readWriteProvider.getSigner();
+    
+        const contract = getProtocolContract(signer);
+    
+        try {
+          const transaction = await contract.getAllRequest();
+            console.log(transaction)
+            setLoanRequests(transaction)
+        } catch (error) {
+          toast.error("Collateral deposit failed", {
+              position: "top-center",
+            });
+          console.log(error)
+        }
+    };
+
+    console.log(loanRequests)
+
+    useEffect(() => {
+      handleGetRequests()
+    }, [])
 
   function createData(regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action ) {
     return { regid, tokenAddress, author, lender, amount, rate, totalRepay, offer, returnDate, status, action };

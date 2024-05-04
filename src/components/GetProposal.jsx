@@ -14,19 +14,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const DepositCollateral = () => {
+const GetProposals = () => {
     const { chainId } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
-    const [tokenAdd, setTokenAdd] = useState("");
-    const [depositAmount, setDepositAmount] = useState(0)
+    const [allProposals, setAllProposals] = useState('')
 
-    const handleChange = (event) => {
-      setTokenAdd(event.target.value);
-    };
-
-    console.log(tokenAdd)
-
-    async function handleRequest () {
+    async function handleProposals () {
         if (!isSupportedChain(chainId)) return console.error("Wrong network");
         const readWriteProvider = getProvider(walletProvider);
         const signer = await readWriteProvider.getSigner();
@@ -34,21 +27,10 @@ const DepositCollateral = () => {
         const contract = getProtocolContract(signer);
     
         try {
-          const transaction = await contract.depositCollateral(tokenAdd, depositAmount);
-          console.log("transaction: ", transaction);
-          const receipt = await transaction.wait();
-    
-          console.log("receipt: ", receipt);
-    
-          if (receipt.status) {
-            return toast.success("Collateral deposit successful!", {
-                position: "top-center",
-              });
-          }
-    
-          toast.error("Collateral deposit failed!", {
-            position: "top-center",
-          });
+          const transaction = await contract.getAllProposals();
+            console.log(transaction)
+            setAllProposals(transaction)
+            
         } catch (error) {
           toast.error("Collateral deposit failed", {
               position: "top-center",
@@ -56,6 +38,8 @@ const DepositCollateral = () => {
           console.log(error)
         }
       };
+
+      console.log(allProposals)
 
   return (
     <div>
