@@ -14,13 +14,44 @@
     },
     {
         "type": "function",
-        "name": "createLendingRequest",
+        "name": "addCollateralTokens",
         "inputs": [
             {
-                "name": "_collateralAddr",
+                "name": "_tokens",
+                "type": "address[]",
+                "internalType": "address[]"
+            },
+            {
+                "name": "_priceFeeds",
+                "type": "address[]",
+                "internalType": "address[]"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "addLoanableToken",
+        "inputs": [
+            {
+                "name": "_token",
                 "type": "address",
                 "internalType": "address"
             },
+            {
+                "name": "_priceFeed",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "createLendingRequest",
+        "inputs": [
             {
                 "name": "_amount",
                 "type": "uint256",
@@ -167,9 +198,9 @@
                 "internalType": "struct Protocol.Request[]",
                 "components": [
                     {
-                        "name": "tokenAddr",
-                        "type": "address",
-                        "internalType": "address"
+                        "name": "requestId",
+                        "type": "uint96",
+                        "internalType": "uint96"
                     },
                     {
                         "name": "author",
@@ -239,6 +270,132 @@
                         "internalType": "uint256"
                     },
                     {
+                        "name": "lender",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "loanRequestAddr",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Protocol.Status"
+                    }
+                ]
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "getLoanableAssets",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "_assets",
+                "type": "address[]",
+                "internalType": "address[]"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "getRequestById",
+        "inputs": [
+            {
+                "name": "_requestId",
+                "type": "uint96",
+                "internalType": "uint96"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "tuple",
+                "internalType": "struct Protocol.Request",
+                "components": [
+                    {
+                        "name": "requestId",
+                        "type": "uint96",
+                        "internalType": "uint96"
+                    },
+                    {
+                        "name": "author",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "interest",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "_totalRepayment",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "offer",
+                        "type": "tuple[]",
+                        "internalType": "struct Protocol.Offer[]",
+                        "components": [
+                            {
+                                "name": "offerId",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "tokenAddr",
+                                "type": "address",
+                                "internalType": "address"
+                            },
+                            {
+                                "name": "author",
+                                "type": "address",
+                                "internalType": "address"
+                            },
+                            {
+                                "name": "amount",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "interest",
+                                "type": "uint8",
+                                "internalType": "uint8"
+                            },
+                            {
+                                "name": "returnDate",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "offerStatus",
+                                "type": "uint8",
+                                "internalType": "enum Protocol.OfferStatus"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "returnDate",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "lender",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
                         "name": "loanRequestAddr",
                         "type": "address",
                         "internalType": "address"
@@ -279,6 +436,138 @@
     },
     {
         "type": "function",
+        "name": "getUserRequest",
+        "inputs": [
+            {
+                "name": "_user",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "_requestId",
+                "type": "uint96",
+                "internalType": "uint96"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "tuple",
+                "internalType": "struct Protocol.Request",
+                "components": [
+                    {
+                        "name": "requestId",
+                        "type": "uint96",
+                        "internalType": "uint96"
+                    },
+                    {
+                        "name": "author",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "interest",
+                        "type": "uint8",
+                        "internalType": "uint8"
+                    },
+                    {
+                        "name": "_totalRepayment",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "offer",
+                        "type": "tuple[]",
+                        "internalType": "struct Protocol.Offer[]",
+                        "components": [
+                            {
+                                "name": "offerId",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "tokenAddr",
+                                "type": "address",
+                                "internalType": "address"
+                            },
+                            {
+                                "name": "author",
+                                "type": "address",
+                                "internalType": "address"
+                            },
+                            {
+                                "name": "amount",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "interest",
+                                "type": "uint8",
+                                "internalType": "uint8"
+                            },
+                            {
+                                "name": "returnDate",
+                                "type": "uint256",
+                                "internalType": "uint256"
+                            },
+                            {
+                                "name": "offerStatus",
+                                "type": "uint8",
+                                "internalType": "enum Protocol.OfferStatus"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "returnDate",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                    },
+                    {
+                        "name": "lender",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "loanRequestAddr",
+                        "type": "address",
+                        "internalType": "address"
+                    },
+                    {
+                        "name": "status",
+                        "type": "uint8",
+                        "internalType": "enum Protocol.Status"
+                    }
+                ]
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "get_gitCoinPoint",
+        "inputs": [
+            {
+                "name": "_user",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "_score",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "gets_addressToCollateralDeposited",
         "inputs": [
             {
@@ -287,7 +576,7 @@
                 "internalType": "address"
             },
             {
-                "name": "tokenAddr",
+                "name": "_tokenAddr",
                 "type": "address",
                 "internalType": "address"
             }
@@ -395,8 +684,39 @@
     },
     {
         "type": "function",
+        "name": "removeCollateralTokens",
+        "inputs": [
+            {
+                "name": "_tokens",
+                "type": "address[]",
+                "internalType": "address[]"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "renounceOwnership",
         "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "repayLoan",
+        "inputs": [
+            {
+                "name": "_requestId",
+                "type": "uint96",
+                "internalType": "uint96"
+            },
+            {
+                "name": "_amount",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
         "outputs": [],
         "stateMutability": "nonpayable"
     },
@@ -411,8 +731,8 @@
             },
             {
                 "name": "_offerId",
-                "type": "uint256",
-                "internalType": "uint256"
+                "type": "uint96",
+                "internalType": "uint96"
             },
             {
                 "name": "_status",
@@ -454,6 +774,24 @@
                 "name": "newOwner",
                 "type": "address",
                 "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "updateGPScore",
+        "inputs": [
+            {
+                "name": "_user",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "_score",
+                "type": "uint256",
+                "internalType": "uint256"
             }
         ],
         "outputs": [],
@@ -554,6 +892,56 @@
                 "type": "uint64",
                 "indexed": false,
                 "internalType": "uint64"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "LoanRepayment",
+        "inputs": [
+            {
+                "name": "sender",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "id",
+                "type": "uint96",
+                "indexed": false,
+                "internalType": "uint96"
+            },
+            {
+                "name": "amount",
+                "type": "uint256",
+                "indexed": false,
+                "internalType": "uint256"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "OfferAccepted",
+        "inputs": [
+            {
+                "name": "sender",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "id",
+                "type": "uint96",
+                "indexed": false,
+                "internalType": "uint96"
+            },
+            {
+                "name": "amount",
+                "type": "uint256",
+                "indexed": true,
+                "internalType": "uint256"
             }
         ],
         "anonymous": false
@@ -703,10 +1091,22 @@
     },
     {
         "type": "event",
-        "name": "Upgraded",
+        "name": "UpdateLoanableToken",
         "inputs": [
             {
-                "name": "implementation",
+                "name": "_token",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "_priceFeed",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            },
+            {
+                "name": "sender",
                 "type": "address",
                 "indexed": true,
                 "internalType": "address"
@@ -716,19 +1116,32 @@
     },
     {
         "type": "event",
-        "name": "log",
+        "name": "UpdatedCollateralTokens",
         "inputs": [
             {
-                "name": "message",
-                "type": "string",
-                "indexed": false,
-                "internalType": "string"
+                "name": "sender",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
             },
             {
-                "name": "amount",
-                "type": "uint256",
+                "name": "newTokensCount",
+                "type": "uint8",
+                "indexed": false,
+                "internalType": "uint8"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "Upgraded",
+        "inputs": [
+            {
+                "name": "implementation",
+                "type": "address",
                 "indexed": true,
-                "internalType": "uint256"
+                "internalType": "address"
             }
         ],
         "anonymous": false
@@ -804,6 +1217,11 @@
     },
     {
         "type": "error",
+        "name": "Protocol__DateMustBeInFuture",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "Protocol__InsufficientAllowance",
         "inputs": []
     },
@@ -854,7 +1272,17 @@
     },
     {
         "type": "error",
+        "name": "Protocol__RequestNotServiced",
+        "inputs": []
+    },
+    {
+        "type": "error",
         "name": "Protocol__TokenNotAllowed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "Protocol__TokenNotLoanable",
         "inputs": []
     },
     {

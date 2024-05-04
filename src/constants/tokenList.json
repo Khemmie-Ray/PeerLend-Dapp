@@ -1,0 +1,20 @@
+{
+    "0x779877A7B0D9E8603169DdbD7836e478b4624789": {
+        "name": "LINK",
+        "symbol": "LINK",
+        "decimals": 18,
+        "address": "0x779877A7B0D9E8603169DdbD7836e478b4624789"
+    },
+    "0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6": {
+        "name": "DAI",
+        "symbol": "DAI",
+        "decimals": 18,
+        "address": "0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6"
+    },
+    "0xf08A50178dfcDe18524640EA6618a1f965821715": {
+        "name": "USDC",
+        "symbol": "USDC",
+        "decimals": 6,
+        "address": "0xf08A50178dfcDe18524640EA6618a1f965821715"
+    }
+}
