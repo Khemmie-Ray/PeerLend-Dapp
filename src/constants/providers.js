@@ -1,4 +1,6 @@
 import { ethers } from "ethers";
+const chainName = 'sepolia'
+const chainId = 11155111;
 
 // read only provider pointing to mumbai. It allows read only access to the mumbai blockchain
 export const readOnlyProvider = new ethers.JsonRpcProvider(
@@ -10,4 +12,8 @@ export const wssProvider = new ethers.WebSocketProvider(
 );
 
 // read/write provider, that allows you to read data and also sign transaction on whatever chain it's pointing to
-export const getProvider = (provider) => new ethers.BrowserProvider(provider);
+const network = new ethers.Network(chainName, chainId);
+export const getProvider = (provider) => new ethers.BrowserProvider(provider, network, {
+    staticNetwork: network,
+  });
+

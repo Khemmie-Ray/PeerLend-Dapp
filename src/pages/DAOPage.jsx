@@ -73,8 +73,7 @@ const DAOPage = () => {
                         </div>
                     </TabPanel>
                 </TabContext>
-                </Box>
-         
+                </Box>     
        </section>
     </main>
   )

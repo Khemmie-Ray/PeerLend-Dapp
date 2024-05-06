@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import CreateRequest from '../../components/createRequest';
+import CreateRequest from '../../components/CreateRequest';
 import DepositCollateral from '../../components/DepositCollateral';
 import ServiceRequest from '../../components/ServiceRequest';
 import { useEffect, useState } from "react";
@@ -67,18 +67,20 @@ const LandingPage = () => {
             <p lassName='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
           </div>
         </div>
-        <div className='w-2/3 flex justify-end items-center'>
-          <button className='bg-bg-gray border border-bg-ash p-4 w-[30%] text-center mr-8 text-[20px] font-bold rounded-lg'>Add</button>
-          <button className='bg-bg-gray border border-bg-ash p-4 w-[30%] text-center text-[20px] font-bold rounded-lg'>Withdraw</button>
+        <div className='w-2/3 flex justify-end items-end flex-col mb-4'>
+        <div className='text-center mb-6'>
+          <p className='lg:text-[24px] md:text-[24px] text-[20px]'>Create Lend Request.</p>
+          <CreateRequest />
+        </div>
+        <div className='flex justify-between w-[50%]'>
+          <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center mr-8 text-[20px] font-bold rounded-lg'>Add</button>
+          <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center text-[20px] font-bold rounded-lg'>Withdraw</button>
+          </div>
         </div>
       </section>
       <section className='flex justify-between flex-col lg:flex-row md:flex-row my-20 items-baseline'>
         <div className='lg:w-[28%] md:w-[28%] w-[100%]'>
           <h2 className='lg:text-[32px] md:text-[32px] text-[26px] font-semi-bold'>Create and  Manage Requests</h2>
-        </div>
-        <div className='lg:w-[25%] md:w-[25%] w-[100%] text-center'>
-          <p className='lg:text-[24px] md:text-[24px] text-[20px]'>Create Lend Request.</p>
-          <CreateRequest />
         </div>
         <div className='flex lg:w-[42%] md:w-[42%] w-[100%] self-start justify-end'>
           <p className='mr-8'>Request</p>
