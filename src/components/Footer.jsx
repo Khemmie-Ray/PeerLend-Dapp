@@ -34,6 +34,7 @@ const Footer = () => {
         </section>
         <section className="border-t border-bg-ash text-center p-4">
             <p>&copy; All Rights reserved PeerLend Team.</p>
+            
         </section>
     </footer>
   )
