@@ -37,7 +37,7 @@ const MakeOffer = () => {
     const [borrowerAddress, setBorrowerAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
-    const [returnDate, setReturnDate] = useState(1767139200);
+    const [returnDate, setReturnDate] = useState(1767139200 * 1000);
     const [collateralCurrencyAddress, setCollateralCurrencyAddress] = useState("");
     const [requestStatus, setRequestStatus] = useState("");
     const [open, setOpen] = useState(false);
@@ -87,7 +87,7 @@ const MakeOffer = () => {
             setBorrowerAddress("");
             setAmount(0);
             setInterest(0);
-            setReturnDate(0);
+            setReturnDate(1767139200 * 1000);
             setRequestId("");
             setCollateralCurrencyAddress("");
             setRequestStatus("");
@@ -153,9 +153,11 @@ const MakeOffer = () => {
                     <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Make offer</p>
                     <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
                     <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
-                    <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={ethers.formatUnits(amount, TokenList[collateralCurrencyAddress]?.decimals)} />
+                    <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
+                        value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals)}
+                        onChange={(e) => setAmount(e.target.value)} />
                     {/* <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={(new Date(returnDate).toISOString().slice(0, 10))} disabled /> */}
-                    <input type="date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={new Date(1767139200 * 1000).toISOString().slice(0, 10)} onChange={(e) => setReturnDate(e.target.value)} />
+                    <input type="date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={new Date(1767139200 * 1000).toISOString().slice(0, 10)} disabled />
                     <input type="text" placeholder='Collateral currency address' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={TokenList[collateralCurrencyAddress]?.name} disabled />
                     <input type="text" placeholder='Request status' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestStatus} disabled />
                     {
