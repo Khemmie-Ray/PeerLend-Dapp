@@ -4,8 +4,8 @@ import {
     useWeb3ModalAccount,
     useWeb3ModalProvider,
   } from "@web3modal/ethers/react";
-import { getProtocolContract } from "../constants/contract";
-import { getProvider } from "../constants/providers";
+import { getGovernanceContract } from "../constants/contract";
+import { readOnlyProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Box from '@mui/material/Box';
@@ -16,15 +16,13 @@ import Select from '@mui/material/Select';
 
 const GetProposals = () => {
     const { chainId } = useWeb3ModalAccount();
-    const { walletProvider } = useWeb3ModalProvider();
+    // const { walletProvider } = useWeb3ModalProvider();
     const [allProposals, setAllProposals] = useState('')
 
     async function handleProposals () {
         if (!isSupportedChain(chainId)) return console.error("Wrong network");
-        const readWriteProvider = getProvider(walletProvider);
-        const signer = await readWriteProvider.getSigner();
-    
-        const contract = getProtocolContract(signer);
+      
+        const contract = getGovernanceContract(readOnlyProvider);
     
         try {
           const transaction = await contract.getAllProposals();
@@ -67,4 +65,4 @@ const GetProposals = () => {
   )
 }
 
-export default DepositCollateral
+export default GetProposals
