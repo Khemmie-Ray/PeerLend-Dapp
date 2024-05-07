@@ -14,6 +14,7 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/rea
 import { getProtocolContract } from '../../constants/contract';
 import { getProvider } from '../../constants/providers';
 import WithdrawCollateral from '../../components/WithdrawCollateral';
+import MakeOffer from '../../components/MakeOffer';
 
 
 const LandingPage = () => {
@@ -121,8 +122,9 @@ const LandingPage = () => {
       <section className='bg-bg-gray border-bg-ash rounded-lg p-10 '>
         <div className='bg-deepBlue rounded-lg p-6 flex flex-col lg:flex-row md:flex-row justify-between text-center text-[22px]'>
           <div >
-            <p>Liquidate User</p>
-            <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Liquidate</button>
+            <p>Make offer</p>
+            {/* <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Offer</button> */}
+            <MakeOffer />
           </div>
           <div>
             <p>Respond to offer</p>
