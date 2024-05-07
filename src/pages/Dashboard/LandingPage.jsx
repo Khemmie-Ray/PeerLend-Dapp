@@ -66,7 +66,7 @@ const LandingPage = () => {
           <h2 className="lg:text-[54px] md:text-[54px] text-[30px] font-bold mb-4">Dashboard</h2>
           <div className='flex'>
             <p className='uppercase mr-8'>Balance <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
-            <p lassName='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
+            <p className='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
           </div>
         </div>
         <div className='w-2/3 flex justify-end items-end flex-col mb-4'>

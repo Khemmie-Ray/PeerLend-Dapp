@@ -34,9 +34,10 @@ const MakeOffer = () => {
     const { walletProvider } = useWeb3ModalProvider();
     const { address } = useWeb3ModalAccount();
     const [requestId, setRequestId] = useState("");
+    const [borrowerAddress, setBorrowerAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
-    const [returnDate, setReturnDate] = useState("");
+    const [returnDate, setReturnDate] = useState(1767139200);
     const [collateralCurrencyAddress, setCollateralCurrencyAddress] = useState("");
     const [requestStatus, setRequestStatus] = useState("");
     const [open, setOpen] = useState(false);
@@ -57,29 +58,24 @@ const MakeOffer = () => {
 
             const contract = await getProtocolContract(provider);
             const request = await contract.getRequestById(_requestId);
-            console.log("Request", request);
 
-            setAmount(request["2"]);
-            setInterest(request["3"]);
-            setReturnDate(request["6"]);
+            setBorrowerAddress(request["1"]);
+            setAmount(request["2"].toString());
+            setInterest(request["3"].toString());
+            setReturnDate(Number(request["6"]) * 1000);
+            setCollateralCurrencyAddress(request["8"]);
 
-            switch (request["9"]) {
-
+            switch (request["9"].toString()) {
+                case "0":
+                    setRequestStatus("Open");
+                    break;
+                case "1":
+                    setRequestStatus("Serviced");
+                    break;
+                case "2":
+                    setRequestStatus("Closed");
+                    break;
             }
-
-
-            //     struct Request {
-            // uint96 requestId;
-            // address author;
-            // uint256 amount;
-            // uint8 interest;
-            // uint256 _totalRepayment;
-            //         Offer[] offer;
-            // uint256 returnDate;
-            // address lender;
-            // address loanRequestAddr;
-            // Status status;
-            //     }
 
         } catch (error) {
             console.log(error);
@@ -87,48 +83,59 @@ const MakeOffer = () => {
                 position: "top-center",
             });
             console.log("Request not found");
+
+            setBorrowerAddress("");
+            setAmount(0);
+            setInterest(0);
+            setReturnDate(0);
+            setRequestId("");
+            setCollateralCurrencyAddress("");
+            setRequestStatus("");
         }
-
-        // setCollateralCurrencyAddress(event.target.value);
-
-        // setMaxTokenCollateralAmount(totalTokenCollateral);
-
-        // console.log(totalTokenCollateral);
     }
 
-    // async function handleWithdraw() {
-    //     if (collateralAmount === "" || collateralAmount === "0" || collateralAmount === undefined) {
-    //         toast.error("Collateral amount is required", {
-    //             position: "top-center",
-    //         })
-    //         return console.log("No collateral amount found");
-    //     }
+    async function handleMakeOffer() {
+        if (requestId === "" || requestId === "0" || requestId === undefined) {
+            toast.error("Collateral amount is required", {
+                position: "top-center",
+            })
+            return console.log("No collateral amount found");
+        }
 
-    //     const provider = getProvider(walletProvider);
-    //     const signer = await provider.getSigner();
+        const provider = getProvider(walletProvider);
+        const signer = await provider.getSigner();
 
-    //     const contract = await getProtocolContract(signer);
+        const contract = await getProtocolContract(signer);
 
-    //     const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
+        // const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
 
-    //     try {
-    //         const transaction = await contract.withdrawCollateral(collateralCurrencyAddress, _collateralAmount);
-    //         const receipt = await transaction.wait();
-    //         console.log(receipt);
-    //         toast.success("Collateral withdraw successful", {
-    //             position: "top-center",
-    //         });
-    //     } catch (error) {
-    //         toast.error("Collateral withdraw failed", {
-    //             position: "top-center",
-    //         });
-    //         console.log(error);
-    //     } finally {
-    //         setCollateralAmount(0);
-    //         setCollateralCurrencyAddress("");
-    //         handleClose();
-    //     }
-    // }
+        try {
+            const _returnDate = new Date(returnDate).getTime() / 1000;
+            console.log(borrowerAddress, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
+            const transaction = await contract.makeLendingOffer(
+                borrowerAddress, requestId, amount, interest, returnDate, collateralCurrencyAddress);
+            const receipt = await transaction.wait();
+            console.log(receipt);
+            toast.success("Offer made successful", {
+                position: "top-center",
+            });
+        } catch (error) {
+            toast.error("Offer transaction failed", {
+                position: "top-center",
+            });
+            console.log(error);
+        } finally {
+            setCollateralAmount(0);
+            setCollateralCurrencyAddress("");
+            setAmount(0);
+            setInterest(0);
+            setReturnDate(0);
+            setRequestId("");
+            setCollateralCurrencyAddress("");
+            setRequestStatus("");
+            handleClose();
+        }
+    }
 
     return (
         <>
@@ -144,31 +151,21 @@ const MakeOffer = () => {
             >
                 <Box sx={style}>
                     <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Make offer</p>
-                    {/* <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label" sx={{ color: "white" }}>Token Address</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={collateralCurrencyAddress}
-                            label="collateralCurrencyAddress"
-                            onChange={handleChange}
-                            sx={{ backgroundColor: "#ffffff23", outline: "none", color: "gray", marginBottom: "20px" }}
-                        >
-                            {Object.keys(TokenList).map((address) => {
-                                const token = TokenList[address];
-                                return (<MenuItem key={token.address} value={token.address}>{token.symbol}</MenuItem>)
-                            })}
-                        </Select>
-                    </FormControl> */}
                     <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
-                    {/* <p
-                        className='text-[14px]'
-                    >Max: {ethers.formatUnits(maxTokenCollateralAmount, TokenList[collateralCurrencyAddress]?.decimals)} {TokenList[collateralCurrencyAddress]?.name}
-                    </p> */}
-                    <button
-                        // onClick={handleWithdraw}
-                        className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4"
-                    >Make offer</button>
+                    <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
+                    <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={ethers.formatUnits(amount, TokenList[collateralCurrencyAddress]?.decimals)} />
+                    {/* <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={(new Date(returnDate).toISOString().slice(0, 10))} disabled /> */}
+                    <input type="date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={new Date(1767139200 * 1000).toISOString().slice(0, 10)} onChange={(e) => setReturnDate(e.target.value)} />
+                    <input type="text" placeholder='Collateral currency address' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={TokenList[collateralCurrencyAddress]?.name} disabled />
+                    <input type="text" placeholder='Request status' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestStatus} disabled />
+                    {
+                        borrowerAddress !== address ?
+                            requestStatus === "Open" ?
+                                <button
+                                    onClick={handleMakeOffer}
+                                    className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4"
+                                >Make offer</button> : null : null
+                    }
                 </Box>
             </Modal>
         </>
