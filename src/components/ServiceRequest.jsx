@@ -16,7 +16,7 @@ import { ethers } from "ethers";
 import TokenList from '../constants/tokenList';
 const style = {
   position: 'absolute',
-  top: '50%',
+  top: '50% ',
   left: '50%',
   color: 'white',
   transform: 'translate(-50%, -50%)',

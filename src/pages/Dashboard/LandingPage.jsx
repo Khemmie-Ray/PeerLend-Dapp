@@ -13,6 +13,7 @@ import { isSupportedChain } from '../../utility';
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
 import { getProtocolContract } from '../../constants/contract';
 import { getProvider } from '../../constants/providers';
+import WithdrawCollateral from '../../components/WithdrawCollateral';
 
 
 const LandingPage = () => {
@@ -68,13 +69,14 @@ const LandingPage = () => {
           </div>
         </div>
         <div className='w-2/3 flex justify-end items-end flex-col mb-4'>
-        <div className='text-center mb-6'>
-          <p className='lg:text-[24px] md:text-[24px] text-[20px]'>Create Lend Request.</p>
-          <CreateRequest />
-        </div>
-        <div className='flex justify-between w-[50%]'>
-          <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center mr-8 text-[20px] font-bold rounded-lg'>Add</button>
-          <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center text-[20px] font-bold rounded-lg'>Withdraw</button>
+          <div className='text-center mb-6'>
+            <p className='lg:text-[24px] md:text-[24px] text-[20px]'>Create Lend Request.</p>
+            <CreateRequest />
+          </div>
+          <div className='flex justify-between w-[50%]'>
+            <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center mr-8 text-[20px] font-bold rounded-lg'>Add</button>
+            {/* <button className='bg-bg-gray border border-bg-ash p-4 w-[50%] text-center text-[20px] font-bold rounded-lg'>Withdraw</button> */}
+            <WithdrawCollateral />
           </div>
         </div>
       </section>
