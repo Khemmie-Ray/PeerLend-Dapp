@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import CreateProposal from "../../components/CreateProposal";
 
 const ConnectedGovernance = () => {
   const [value, setValue] = useState("Create");
@@ -108,39 +109,8 @@ const ConnectedGovernance = () => {
               </TabList>
             </Box>
             <TabPanel value="Create">
-              <div className="bg-deepBlue rounded-lg py-8 px-4 mb-4">
-                <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
-                  Create Proposal
-                </h2>
-                <div className="flex w-[100%] justify-between flex-col lg:flex-row md:flex-row">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Options"
-                    className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
-                  />
-                </div>
-                <div className="flex w-[100%] justify-between flex-col lg:flex-row md:flex-row">
-                  <input
-                    type="text"
-                    placeholder="Status"
-                    className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Deadline"
-                    className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
-                  />
-                </div>
-                <div className="lg:w-[50%] md:w-[50%] w-[100%] mx-auto">
-                  <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center">
-                    Create Proposals
-                  </button>
-                </div>
+              <div>
+                <CreateProposal />
               </div>
             </TabPanel>
             <TabPanel value="Update">

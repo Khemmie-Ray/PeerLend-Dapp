@@ -1,5 +1,4 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
-import { useWeb3ModalTheme } from '@web3modal/ethers/react';
 
 export const SUPPORTED_CHAIN = 11155111;
 
@@ -8,7 +7,7 @@ const sepolia = {
     name: 'Sepolia',
     currency: 'ETH',
     explorerUrl: 'https://etherscan.io',
-    rpcUrl: import.meta.env.VITE_ALCHEMY_RPC
+    rpcUrl: import.meta.env.VITE_INFURA_RPC
   }
   
   const metadata = {
@@ -26,6 +25,6 @@ const sepolia = {
     themeVariables: {
       '--w3m-accent': '#A604F2',
       '--w3m-color-mix-strength': 40,
-      '--w3m-border-radius-master': '10'
+      '--w3m-border-radius-master': ''
     }
   })
