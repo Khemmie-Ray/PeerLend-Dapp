@@ -18,6 +18,7 @@ import Modal from '@mui/material/Modal';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { ethers } from "ethers";
+import TokenList from '../constants/tokenList';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -57,7 +58,10 @@ const CreateRequest = () => {
     const contract = getProtocolContract(signer);
 
     try {
-      const transaction = await contract.createLendingRequest(amount, interest, returnDate, loanCurrency);
+      const _returnDate = new Date(returnDate).getTime() / 1000;
+      const _amount = ethers.parseUnits(amount, TokenList[loanCurrency].decimals);
+      console.log(_returnDate, _amount);
+      const transaction = await contract.createLendingRequest(_amount, interest, _returnDate, loanCurrency);
       console.log("transaction: ", transaction);
       const receipt = await transaction.wait();
 
@@ -77,13 +81,20 @@ const CreateRequest = () => {
       toast.error("Request failed!", {
         position: "top-center",
       });
+    } finally {
+      setAmount(0);
+      setInterest("");
+      setReturnDate("");
+      setLoanCurrency("");
+
+      handleClose();
     }
   };
 
   return (
     <div>
       <div>
-           <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleOpen}>Create Request</button>
+        <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleOpen}>Create Request</button>
         <Modal
           open={open}
           onClose={handleClose}
@@ -93,7 +104,7 @@ const CreateRequest = () => {
           <Box sx={style}>
             <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" onChange={(e) => setAmount(e.target.value)} />
             <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" onChange={(e) => setInterest(e.target.value)} />
-            <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" onChange={(e) => setReturnDate(e.target.value)} />
+            <input type="Date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" onChange={(e) => setReturnDate(e.target.value)} />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label" sx={{ color: "white" }}>Loan Currency</InputLabel>
               <Select
@@ -104,9 +115,13 @@ const CreateRequest = () => {
                 onChange={(e) => setLoanCurrency(e.target.value)}
                 sx={{ backgroundColor: "#ffffff23", outline: "none", color: "gray", marginBottom: "20px" }}
               >
-                <MenuItem value="0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6">DAI</MenuItem>
+                {Object.keys(TokenList).map((address) => {
+                  const token = TokenList[address];
+                  return (<MenuItem key={token.address} value={token.address}>{token.symbol}</MenuItem>)
+                })}
+                {/* <MenuItem value="0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6">DAI</MenuItem>
                 <MenuItem value="0x779877A7B0D9E8603169DdbD7836e478b4624789">LINK</MenuItem>
-                <MenuItem value="0xf08A50178dfcDe18524640EA6618a1f965821715">USDC</MenuItem>
+                <MenuItem value="0xf08A50178dfcDe18524640EA6618a1f965821715">USDC</MenuItem> */}
               </Select>
             </FormControl>
             <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleRequest}>Create &rarr;</button>

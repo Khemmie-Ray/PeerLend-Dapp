@@ -26,8 +26,6 @@ const DepositCollateral = () => {
     setTokenAdd(event.target.value);
   };
 
-  console.log(tokenAdd)
-
   async function handleRequest() {
     if (!isSupportedChain(chainId)) return console.error("Wrong network");
     const readWriteProvider = getProvider(walletProvider);
@@ -71,6 +69,9 @@ const DepositCollateral = () => {
         position: "top-center",
       });
       console.log(error)
+    } finally {
+      setDepositAmount(0);
+      setTokenAdd("");
     }
   };
 
