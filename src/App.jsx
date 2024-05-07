@@ -26,7 +26,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 const App = () => {
   return (
-    <div className="max-w-[1440px] mx-auto bg-gradient-to-tr from-darkGrey to-lightGrey min-h-[100vh] text-white font-ubuntu">
+    <div className=" w-full mx-auto  min-h-[100vh] text-white font-ubuntu from-darkGrey to-lightGrey bg-gradient-to-tr">
         <RouterProvider router={router} />
     </div> 
   )

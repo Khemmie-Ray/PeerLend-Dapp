@@ -1,5 +1,4 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
-import { useWeb3ModalTheme } from '@web3modal/ethers/react';
 
 export const SUPPORTED_CHAIN = 11155111;
 
