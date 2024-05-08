@@ -16,10 +16,10 @@ export const GitCoinVerification = () => {
   const [error, setError] = useState('');
 
 
-  const headers = import.meta.env.VITE_PUBLIC_GC_API_KEY
+  const headers = import.meta.env.VITE_PUBLIC_GC_API
     ? {
       'Content-Type': 'application/json',
-      'X-API-Key': import.meta.env.VITE_PUBLIC_GC_API_KEY,
+      'X-API-Key': import.meta.env.VITE_PUBLIC_GC_API,
     }
     : undefined;
 
