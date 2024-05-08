@@ -1,7 +1,6 @@
 import { 
   createBrowserRouter, 
   Route, 
-  Routes,
   createRoutesFromElements, 
   RouterProvider 
 } from "react-router-dom";
@@ -13,31 +12,24 @@ import MarketPlace from "./pages/MarketPlace";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
-import { useWeb3ModalProvider } from "@web3modal/ethers/react";
-import { useState, useEffect } from "react";
 
 configWeb3Modal();
 
-
 const router = createBrowserRouter(createRoutesFromElements(
-  <Routes>
+  <Route>
     <Route path="/" element={<MainLayout />} >
     <Route index element={<Home />} />
     <Route path="/governance" element={<DAOPage />} />
     <Route path="/marketplace" element={<MarketPlace />} />
     </Route>
-   {/* {isConnected && (  */}
    <Route path="/dashboard" element={<DashboardLayout />}>
     <Route index element={<Dashboard />} />
     <Route path="connectedGovernance" element={<ConnectedGovernance />} />
     </Route>
-    {/* )} */}
-  </Routes>
+  </Route>
 ))
 
 const App = () => {
-
-  
   return (
     <div className=" w-full mx-auto  min-h-[100vh] text-white font-ubuntu from-darkGrey to-lightGrey bg-gradient-to-tr">
         <RouterProvider router={router} />
