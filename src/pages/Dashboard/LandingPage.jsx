@@ -14,7 +14,6 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/rea
 import { getProtocolContract } from '../../constants/contract';
 import { getProvider } from '../../constants/providers';
 import WithdrawCollateral from '../../components/WithdrawCollateral';
-import MakeOffer from '../../components/MakeOffer';
 
 
 const LandingPage = () => {
@@ -68,6 +67,7 @@ const LandingPage = () => {
             <p className='uppercase mr-8'>Balance <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
             <p className='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
           </div>
+          <GitCoinVerification />
         </div>
         <div className='w-2/3 flex justify-end items-end flex-col mb-4'>
           <div className='text-center mb-6'>
@@ -119,24 +119,7 @@ const LandingPage = () => {
         </div>
         <DepositCollateral />
       </section>
-      <section className='bg-bg-gray border-bg-ash rounded-lg p-10 '>
-        <div className='bg-deepBlue rounded-lg p-6 flex flex-col lg:flex-row md:flex-row justify-between text-center text-[22px]'>
-          <div >
-            <p>Make offer</p>
-            {/* <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Offer</button> */}
-            <MakeOffer />
-          </div>
-          <div>
-            <p>Respond to offer</p>
-            <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Respond</button>
-          </div>
-          <div>
-            <p>Service request</p>
-            {/* <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Service</button> */}
-            <ServiceRequest />
-          </div>
-        </div>
-      </section>
+    
       <section>
         <section className='bg-bg-gray border-bg-ash rounded-lg p-10 my-20'>
           <h3 className='my-4 text-[22px]'>Incoming requests.</h3>

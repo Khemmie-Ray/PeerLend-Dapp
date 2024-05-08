@@ -4,27 +4,42 @@ import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers/react";
-import { getProtocolContract, getErc20TokenContract } from "../constants/contract";
+import {
+  getProtocolContract,
+  getErc20TokenContract,
+} from "../constants/contract";
 import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-
+import "react-toastify/dist/ReactToastify.css";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Modal from "@mui/material/Modal";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import { ethers } from "ethers";
+import TokenList from "../constants/tokenList";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  color: "white",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  border: "2px solid #000",
+  boxShadow: 24,
+  backgroundColor: "#1E1D34",
+  p: 4,
+};
 
 const DepositCollateral = () => {
   const { chainId } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [tokenAdd, setTokenAdd] = useState("");
-  const [depositAmount, setDepositAmount] = useState(0)
-
-  const handleChange = (event) => {
-    setTokenAdd(event.target.value);
-  };
+  const [depositAmount, setDepositAmount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   async function handleRequest() {
     if (!isSupportedChain(chainId)) return console.error("Wrong network");
@@ -35,7 +50,10 @@ const DepositCollateral = () => {
     const erc20contract = getErc20TokenContract(signer, tokenAdd);
 
     try {
-      const approveTx = await erc20contract.approve(import.meta.env.VITE_CONTRACT_ADDRESS, ethers.parseUnits(depositAmount, 18));
+      const approveTx = await erc20contract.approve(
+        import.meta.env.VITE_CONTRACT_ADDRESS,
+        ethers.parseUnits(depositAmount, 18)
+      );
       const approveReceipt = await approveTx.wait();
 
       if (approveReceipt.status) {
@@ -49,7 +67,10 @@ const DepositCollateral = () => {
         throw new Error("Approval failed");
       }
 
-      const transaction = await contract.depositCollateral(tokenAdd, ethers.parseUnits(depositAmount, 18));
+      const transaction = await contract.depositCollateral(
+        tokenAdd,
+        ethers.parseUnits(depositAmount, 18)
+      );
       console.log("transaction: ", transaction);
       const receipt = await transaction.wait();
 
@@ -68,37 +89,57 @@ const DepositCollateral = () => {
       toast.error("Collateral deposit failed", {
         position: "top-center",
       });
-      console.log(error)
+      console.log(error);
     } finally {
       setDepositAmount(0);
       setTokenAdd("");
     }
-  };
+  }
 
   return (
-    <div>
-      <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Deposit collateral</p>
-      <Box sx={{ minWidth: 120, backgroundColor: "#1E1D34" }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label" sx={{ color: "white" }}>Token Address</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={tokenAdd}
-            label="tokenAdd"
-            onChange={handleChange}
-            sx={{ backgroundColor: "#ffffff23", outline: "none", color: "gray", marginBottom: "20px" }}
-          >
-            <MenuItem value="0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6">DAI</MenuItem>
-            <MenuItem value="0x779877A7B0D9E8603169DdbD7836e478b4624789">LINK</MenuItem>
-            <MenuItem value="0xf08A50178dfcDe18524640EA6618a1f965821715">USDC</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-      <input type="text" placeholder='amount of collateral' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" onChange={(e) => setDepositAmount(e.target.value)} />
-      <button className="bg-purple py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleRequest}>Deposit &rarr;</button>
-    </div>
+    <>
+    <button
+        onClick={handleOpen}
+        className="bg-bg-gray border border-bg-ash px-4 py-2 w-[48%] text-center text-[18px] font-bold rounded-lg"
+    >Deposit</button>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+    >
+        <Box sx={style}>
+            <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Deposit collateral</p>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" sx={{ color: "white" }}>Token Address</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={tokenAdd}
+                    label="Token address"
+                    onChange={(e) => setTokenAdd(e.target.value)}
+                    sx={{ backgroundColor: "#ffffff23", outline: "none", color: "gray", marginBottom: "20px" }}
+                >
+                    {Object.keys(TokenList).map((address) => {
+                        const token = TokenList[address];
+                        return (<MenuItem key={token.address} value={token.address}>{token.symbol}</MenuItem>)
+                    })}
+                </Select>
+            </FormControl>
+            <input
+            type="text"
+            placeholder="amount of collateral"
+            className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
+            onChange={(e) => setDepositAmount(e.target.value)}
+          />
+          <button
+            className="bg-purple py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4"
+            onClick={handleRequest}
+          >Deposit</button>
+        </Box>
+    </Modal>
+    </>
   )
-}
+};
 
-export default DepositCollateral
+export default DepositCollateral;

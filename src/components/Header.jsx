@@ -25,15 +25,12 @@ const Header = () => {
         </div>
         <nav className="flex justify-between items-center w-2/3">
             <div>
-              {isConnected && (
-              <NavLink to="landingpage" className="mr-8">Dashboard</NavLink>
-              )}
-            <NavLink to="governance" className="mr-8">Governance</NavLink>
-            <NavLink to="marketplace" className="mr-8">MarketPlace</NavLink>
+            <NavLink to="/governance" className="mr-8">Governance</NavLink>
+            <NavLink to="/marketplace" className="mr-8">MarketPlace</NavLink>
             <NavLink to="">Blog</NavLink>
             </div>
             <div >
-            <w3m-button balance="show"/>
+          <w3m-button />
             </div>
         </nav>
         </div>
@@ -45,9 +42,6 @@ const Header = () => {
             {showNav ? <IoMdClose onClick={(e) => setShowNav(false)} className="text-[30px]"/> : <CiMenuFries onClick={(e) => setShowNav(true)} className="text-[30px]" />}
             {showNav && ( <nav className="flex flex-col justify-between items-center absolute top-28 p-6 w-full bg-bg-gray">
                 <div>
-                  {isConnected && (
-                  <NavLink to="landingpage" className="mb-8 block">Dashboard</NavLink>
-                  )}
                 <NavLink to="governance" className="mb-8 block">Governance</NavLink>
                 <NavLink to="marketplace" className="mb-8 block">MarketPlace</NavLink>
                 <NavLink to="" className="mb-8 block">Blog</NavLink>
