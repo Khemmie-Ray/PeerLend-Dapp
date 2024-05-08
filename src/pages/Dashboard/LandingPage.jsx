@@ -14,6 +14,7 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/rea
 import { getProtocolContract } from '../../constants/contract';
 import { getProvider } from '../../constants/providers';
 import WithdrawCollateral from '../../components/WithdrawCollateral';
+import MakeOffer from '../../components/MakeOffer';
 
 
 const LandingPage = () => {
@@ -65,7 +66,7 @@ const LandingPage = () => {
           <h2 className="lg:text-[54px] md:text-[54px] text-[30px] font-bold mb-4">Dashboard</h2>
           <div className='flex'>
             <p className='uppercase mr-8'>Balance <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
-            <p lassName='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
+            <p className='uppercase'>Collateral <br /> <span className='lg:text-[30px] md:text-[30px] text-[20px] font-bold'>0.00</span></p>
           </div>
         </div>
         <div className='w-2/3 flex justify-end items-end flex-col mb-4'>
@@ -121,8 +122,9 @@ const LandingPage = () => {
       <section className='bg-bg-gray border-bg-ash rounded-lg p-10 '>
         <div className='bg-deepBlue rounded-lg p-6 flex flex-col lg:flex-row md:flex-row justify-between text-center text-[22px]'>
           <div >
-            <p>Liquidate User</p>
-            <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Liquidate</button>
+            <p>Make offer</p>
+            {/* <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Offer</button> */}
+            <MakeOffer />
           </div>
           <div>
             <p>Respond to offer</p>
@@ -156,9 +158,9 @@ const LandingPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
+                {rows.map((row, index) => (
                   <TableRow
-                    key={row.name}
+                    key={index}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell style={{ color: 'white' }}>{row.regid}</TableCell>
