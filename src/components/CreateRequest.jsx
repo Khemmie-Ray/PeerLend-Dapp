@@ -10,10 +10,8 @@ import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,10 +29,6 @@ const style = {
   backgroundColor: '#1E1D34',
   p: 4,
 };
-
-const buttonStyle = {
-
-}
 
 const CreateRequest = () => {
 
@@ -73,7 +67,7 @@ const CreateRequest = () => {
         });
       }
 
-      toast.error("Request failed!", {
+      toast.error("Request failed, Verify email first!", {
         position: "top-center",
       });
     } catch (error) {
@@ -119,9 +113,6 @@ const CreateRequest = () => {
                   const token = TokenList[address];
                   return (<MenuItem key={token.address} value={token.address}>{token.symbol}</MenuItem>)
                 })}
-                {/* <MenuItem value="0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6">DAI</MenuItem>
-                <MenuItem value="0x779877A7B0D9E8603169DdbD7836e478b4624789">LINK</MenuItem>
-                <MenuItem value="0xf08A50178dfcDe18524640EA6618a1f965821715">USDC</MenuItem> */}
               </Select>
             </FormControl>
             <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleRequest}>Create &rarr;</button>

@@ -57,14 +57,10 @@ const ConnectedGovernance = () => {
 
   return (
     <main className="w-[90%] mx-auto">
-      <section className="lg:w-[50%] md:w-[50%] w-[100%] mx-auto text-center my-10">
-        <h2 className="lg:text-[54px] md:text-[54px] text-[36px] font-bold mb-4">
+      <section className="lg:w-[50%] md:w-[50%] w-[100%] my-10">
+        <h2 className="lg:text-[42px] md:text-[42px] text-[24px] font-bold mb-4">
           Governance
         </h2>
-        <p className="text-[24px]">
-          Join in governance activities and vote on new proposals and protocol
-          upgrades
-        </p>
       </section>
       <section className="flex justify-between lg:flex-row md:flex-row flex-col">
         <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
@@ -140,8 +136,8 @@ const ConnectedGovernance = () => {
           </TabContext>
         </Box>
       </section>
-      <section className="mt-14 flex flex-col lg:flex-row md:flex-row justify-between">
-        <div className="bg-bg-gray border border-bg-ash  p-8 rounded-lg lg:w-[60%] md:w-[60%] w-[100%]">
+      <section className="mt-14 flex flex-col lg:flex-row md:flex-row justify-between items-center">
+        <div className="bg-bg-gray border border-bg-ash  p-8 rounded-lg lg:w-[60%] md:w-[60%] w-[100%] mb-auto">
           <h2
             className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4"
             onClick={handleProposals}
@@ -185,7 +181,7 @@ const ConnectedGovernance = () => {
             </button>
           </div>
         </div>
-        <div className="lg:w-[35%] md:w-[35%] w-[100%] my-10">
+        <div className="lg:w-[35%] md:w-[35%] w-[100%] lg:mb-10 md:mb-10 lg:mt-0 md:mt-0 my-10">
           <div className=" flex flex-col ml-auto bg-bg-gray border border-bg-ash  p-8 rounded-lg mb-4">
             <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
               Delegate Vote
@@ -200,7 +196,7 @@ const ConnectedGovernance = () => {
               placeholder="Proposal ID"
               className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
             />
-            <button className="bg-purple py-4 px-12 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
+            <button className="bg-purple py-2 px-12 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
               Delegate Vote &rarr;
             </button>
           </div>
@@ -212,13 +208,13 @@ const ConnectedGovernance = () => {
             <input
               type="text"
               placeholder="Enter amount"
-              className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
+              className="rounded-lg w-[100%] px-4 py-2 bg-[#ffffff23] backdrop-blur-lg mb-4"
             />
-            <div className="flex flex-col lg:flex-row md:flex-row">
-              <button className="text-white border border-purple py-4 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] lg:mr-2 md:mr-2 mr-0 lg:w-1/2 mb-4">
+            <div className="">
+              <button className="text-white border border-purple py-2 px-4 rounded-lg text-[18px] lg:mr-2 md:mr-2 mr-0 w-[100%] mb-4">
                 Reduce Power &rarr;
               </button>
-              <button className="bg-purple py-4 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] lg:w-1/2 mb-4">
+              <button className="bg-purple py-2 px-4 rounded-lg text-[18px] w-[100%] mb-4">
                 Add Power &rarr;
               </button>
             </div>

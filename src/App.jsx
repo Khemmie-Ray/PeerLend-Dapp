@@ -1,30 +1,43 @@
 import { 
   createBrowserRouter, 
   Route, 
+  Routes,
   createRoutesFromElements, 
   RouterProvider 
 } from "react-router-dom";
 import MainLayout from "./Layout/MainLayout";
 import Home from "./pages/Home";
-import Governance from "./pages/Governance";
 import { configWeb3Modal } from "./connection";
-import LandingPage from "./pages/Dashboard/LandingPage";
+import DAOPage from "./pages/DAOPage";
 import MarketPlace from "./pages/MarketPlace";
+import DashboardLayout from "./Layout/DashboardLayout";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
+import { useWeb3ModalProvider } from "@web3modal/ethers/react";
+import { useState, useEffect } from "react";
 
 configWeb3Modal();
 
+
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route>
+  <Routes>
     <Route path="/" element={<MainLayout />} >
     <Route index element={<Home />} />
-    <Route path="governance" element={<Governance/>} />
-    <Route path="landingpage" element={<LandingPage />} />
-    <Route path="marketplace" element={<MarketPlace />} />
+    <Route path="/governance" element={<DAOPage />} />
+    <Route path="/marketplace" element={<MarketPlace />} />
     </Route>
-  </Route>
+   {/* {isConnected && (  */}
+   <Route path="/dashboard" element={<DashboardLayout />}>
+    <Route index element={<Dashboard />} />
+    <Route path="connectedGovernance" element={<ConnectedGovernance />} />
+    </Route>
+    {/* )} */}
+  </Routes>
 ))
 
 const App = () => {
+
+  
   return (
     <div className=" w-full mx-auto  min-h-[100vh] text-white font-ubuntu from-darkGrey to-lightGrey bg-gradient-to-tr">
         <RouterProvider router={router} />

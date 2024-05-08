@@ -8,8 +8,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    body {
-        background-color: '#0A0D17';
-    }
+::-webkit-scrollbar {
+    display: none;
 }
