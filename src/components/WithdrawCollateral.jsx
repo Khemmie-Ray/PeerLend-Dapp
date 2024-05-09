@@ -93,10 +93,10 @@ const WithdrawCollateral = () => {
     }
 
     return (
-        <>
+        <div className="my-4">
             <button
                 onClick={handleOpen}
-                className="bg-bg-gray border border-bg-ash px-4 py-2 w-[48%] text-center text-[18px] font-bold rounded-lg"
+                className="bg-bg-gray border border-bg-ash px-4 py-2 w-[100%] text-center text-[18px] font-bold rounded-lg"
             >Withdraw</button>
             <Modal
                 open={open}
@@ -133,7 +133,7 @@ const WithdrawCollateral = () => {
                     >Withdraw</button>
                 </Box>
             </Modal>
-        </>
+        </div>
     )
 }
 

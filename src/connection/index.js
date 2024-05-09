@@ -1,10 +1,17 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
 
-export const SUPPORTED_CHAIN = 11155111;
+export const SUPPORTED_CHAIN = 11155420;
 
-const sepolia = {
-  chainId: 11155111,
-  name: 'Sepolia',
+// const sepolia = {
+//   chainId: 11155420,
+//   name: 'Sepolia',
+//   currency: 'ETH',
+//   explorerUrl: 'https://etherscan.io',
+//   rpcUrl: import.meta.env.VITE_INFURA_RPC
+// }
+const optimismsepolia = {
+  chainId: 11155420,
+  name: 'Optimism Sepolia',
   currency: 'ETH',
   explorerUrl: 'https://etherscan.io',
   rpcUrl: import.meta.env.VITE_INFURA_RPC
@@ -19,7 +26,7 @@ const metadata = {
 
 export const configWeb3Modal = () => createWeb3Modal({
   ethersConfig: defaultConfig({ metadata }),
-  chains: [sepolia],
+  chains: [optimismsepolia],
   projectId: import.meta.env.VITE_PROJECT_ID,
   enableAnalytics: false,
   themeVariables: {

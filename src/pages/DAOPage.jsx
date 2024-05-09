@@ -3,11 +3,13 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import UseFetchProposals from '../Hooks/UseFetchProposals';
 
 import { useState } from 'react';
 
 const DAOPage = () => {
   const [value, setValue] = useState('Active');
+  const allProposals = UseFetchProposals()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

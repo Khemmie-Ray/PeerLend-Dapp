@@ -3,7 +3,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { useWeb3ModalAccount } from "@web3modal/ethers/react";
+import { isSupportedChain } from "../utility";
+// import { isAddress } from "ethers";
+import {
+  useWeb3ModalAccount,
+  useWeb3ModalProvider,
+} from "@web3modal/ethers/react";
+import { getProtocolContract } from "../constants/contract";
+import { getProvider } from "../constants/providers";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -18,7 +25,6 @@ const style = {
     p: 4,
 };
 
-
 const EmailVerification = () => {
     const { address } = useWeb3ModalAccount();
     const [email, setEmail] = useState('');
@@ -28,6 +34,9 @@ const EmailVerification = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     // const [status, setStatus] = useState(false);
+
+    const { chainId } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
 
     const headers = {
         'Content-Type': 'application/json',
@@ -68,6 +77,12 @@ const EmailVerification = () => {
 
 
     const verifyOtp = async () => {
+        if (!isSupportedChain(chainId)) return console.error("Wrong network");
+        // if (!isAddress(address)) return console.error("Invalid address");
+        const readWriteProvider = getProvider(walletProvider);
+        const signer = await readWriteProvider.getSigner();
+    
+        const contract = getProtocolContract(signer);
 
         if (!otpCode) {
             setError("OTP is required.");
@@ -80,8 +95,11 @@ const EmailVerification = () => {
             // Replace this URL with the actual verification endpoint
             const res = await axios.post('https://email-service-backend-2.onrender.com/api/v1/verifyMail', { email, otp: otpCode }, { headers });
 
+
             if (res.status === 200) {
                 toast.update(toastId, { render: 'OTP verified successfully.', type: 'success', position: 'top-center', autoClose: 5000, isLoading: false });
+                const tx = await contract.updateEmail(address, email, true)
+                const receipt = await tx.wait()
                 setError('OTP verified successfully.')
             } else {
                 toast.update(toastId, { render: res.data?.message, type: 'error', position: 'top-center', autoClose: 5000, isLoading: false });
@@ -89,21 +107,6 @@ const EmailVerification = () => {
             }
 
             console.log(res); // Log the response from the backend (if any
-
-            // Update the status to indicate the user is verified
-            // setStatus(true); // Assuming status is a boolean indicating verification status
-
-            // Prepare the data to send to the backend
-            const dataToSend = {
-                user: address,
-                email: email, // The user's email
-                isVerified: res.data?.verifiedStatus // The OTP code entered by the user
-            };
-
-            //   // Make a POST request to your backend endpoint
-            const updateRes = await axios.post('https://relayer-node-js-1.onrender.com/updateEmail', dataToSend, { headers });
-            // console.log(updateRes); // Log the response from the backend (if any)
-            setError('Data sent to contract successfully.');
 
             if (updateRes.status === 200) {
                 setError('User verified successfully.');
@@ -128,17 +131,20 @@ const EmailVerification = () => {
 
 
     return (
-        <div className="flex items-center mt-2">
+        <div className="flex flex-col items-center mt-2">
+            <div className="flex items-center">
             <input
                 type="text"
                 placeholder='email'
                 onChange={(e) => setEmail(e.target.value)}
-                className="rounded-lg w-[50%] px-4 py-2 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" />
-            <button className="bg-purple py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
+                className="w-[50%] px-4 py-2 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" />
+            <button className="border border-bg-ash py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
                 if (!email) return toast.error("Email is required");
                 handleAction()
+            }}>Verify &rarr;</button></div>
+             <button className="border border-bg-ash py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
                 handleOpen()
-            }}>Verify &rarr;</button>
+            }}>OTP&rarr;</button>
             <Modal
                 open={open}
                 onClose={handleClose}

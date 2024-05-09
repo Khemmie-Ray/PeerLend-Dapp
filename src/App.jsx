@@ -12,6 +12,7 @@ import MarketPlace from "./pages/MarketPlace";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
+import Transaction from "./pages/Dashboard/Transaction";
 
 configWeb3Modal();
 
