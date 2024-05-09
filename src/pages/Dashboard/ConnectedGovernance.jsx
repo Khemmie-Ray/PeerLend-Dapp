@@ -14,46 +14,16 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import CreateProposal from "../../components/CreateProposal";
+import UseFetchProposals from "../../Hooks/UseFetchProposals";
+import { all } from "axios";
 
 const ConnectedGovernance = () => {
   const [value, setValue] = useState("Create");
-  const [allProposals, setAllProposals] = useState("");
+  const allProposals = UseFetchProposals()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const { chainId } = useWeb3ModalAccount();
-  const { walletProvider } = useWeb3ModalProvider();
-
-  async function handleProposals() {
-    if (!isSupportedChain(chainId)) return console.error("Wrong network");
-    const readWriteProvider = getProvider(walletProvider);
-    const signer = await readWriteProvider.getSigner();
-
-    const contract = getGovernanceContract(signer);
-
-    try {
-      const transaction = await contract.getAllProposals();
-      setAllProposals(transaction);
-
-      console.log(allProposals);
-
-      if (transaction.status) {
-        return toast.success("Collateral deposit successful!", {
-          position: "top-center",
-        });
-      }
-
-      toast.error("Collateral deposit failed!", {
-        position: "top-center",
-      });
-    } catch (error) {
-      toast.error("Collateral deposit failed", {
-        position: "top-center",
-      });
-      console.log(error);
-    }
-  }
 
   return (
     <main className="w-[90%] mx-auto">
@@ -65,7 +35,7 @@ const ConnectedGovernance = () => {
       <section className="flex justify-between lg:flex-row md:flex-row flex-col">
         <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
           <p>Total Proposals</p>
-          <h3 className="text-[40px] font-bold my-2">1000</h3>
+          <h3 className="text-[40px] font-bold my-2">{allProposals.length}</h3>
         </div>
         <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
           <p>Total Votes</p>
@@ -139,47 +109,16 @@ const ConnectedGovernance = () => {
       <section className="mt-14 flex flex-col lg:flex-row md:flex-row justify-between items-center">
         <div className="bg-bg-gray border border-bg-ash  p-8 rounded-lg lg:w-[60%] md:w-[60%] w-[100%] mb-auto">
           <h2
-            className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4"
-            onClick={handleProposals}
-          >
+            className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
             Proposals
           </h2>
-          <div className="bg-deepBlue flex flex-col lg:flex-row md:flex-row justify-between rounded-lg py-8 px-4 mb-4">
-            <div className="flex">
-              <p className="mr-4">100</p>
-              <p>
-                Peerlend Interest rate 4% increase proposal <br />{" "}
-                <span>Active . 21.00.24 Left</span>
-              </p>
-            </div>
-            <button className="border border-purple px-4 py-2 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
+          {allProposals.map((info) => (<div className="bg-deepBlue rounded-lg p-4 mb-4">
+            <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
+              <p className="truncate">{info.address}</p>
+            <button className="border border-purple px-4 py-2 rounded-lg text-[18px] my-4">
               Vote
             </button>
-          </div>
-          <div className="bg-deepBlue flex flex-col lg:flex-row md:flex-row justify-between rounded-lg py-8 px-4">
-            <div className="flex">
-              <p className="mr-4">100</p>
-              <p>
-                Peerlend Interest rate 4% increase proposal <br />{" "}
-                <span>Active . 21.00.24 Left</span>
-              </p>
-            </div>
-            <button className="border border-purple px-4 py-2 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
-              Vote
-            </button>
-          </div>
-          <div className="bg-deepBlue flex flex-col lg:flex-row md:flex-row justify-between rounded-lg py-8 px-4">
-            <div className="flex">
-              <p className="mr-4">100</p>
-              <p>
-                Peerlend Interest rate 4% increase proposal <br />{" "}
-                <span>Active . 0 Left</span>
-              </p>
-            </div>
-            <button className="border border-purple px-4 py-2 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
-              Vote
-            </button>
-          </div>
+          </div>))}
         </div>
         <div className="lg:w-[35%] md:w-[35%] w-[100%] lg:mb-10 md:mb-10 lg:mt-0 md:mt-0 my-10">
           <div className=" flex flex-col ml-auto bg-bg-gray border border-bg-ash  p-8 rounded-lg mb-4">

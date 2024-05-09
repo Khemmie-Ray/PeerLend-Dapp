@@ -1,20 +1,20 @@
 {
-    "0x779877A7B0D9E8603169DdbD7836e478b4624789": {
+    "0xE4aB69C077896252FAFBD49EFD26B5D171A32410": {
         "name": "LINK",
         "symbol": "LINK",
         "decimals": 18,
-        "address": "0x779877A7B0D9E8603169DdbD7836e478b4624789"
+        "address": "0xE4aB69C077896252FAFBD49EFD26B5D171A32410"
     },
-    "0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6": {
+    "0x0091f4e75a03C11cB9be8E3717219005eb780D89": {
         "name": "DAI",
         "symbol": "DAI",
         "decimals": 18,
-        "address": "0x3e622317f8C93f7328350cF0B56d9eD4C620C5d6"
+        "address": "0x0091f4e75a03C11cB9be8E3717219005eb780D89"
     },
-    "0xf08A50178dfcDe18524640EA6618a1f965821715": {
+    "0x87350147a24099Bf1e7E677576f01C1415857C75": {
         "name": "USDC",
         "symbol": "USDC",
         "decimals": 6,
-        "address": "0xf08A50178dfcDe18524640EA6618a1f965821715"
+        "address": "0x87350147a24099Bf1e7E677576f01C1415857C75"
     }
 }

@@ -4,17 +4,12 @@ import { useWeb3ModalProvider } from "@web3modal/ethers/react";
 import { useState, useEffect } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
 const Header = () => {
   const { walletProvider } = useWeb3ModalProvider()
-  const [isConnected, setIsConnected] = useState(false);
   const [showNav, setShowNav] = useState(false)
-  
-    useEffect(() => {
-      if (walletProvider) {
-        setIsConnected(true);
-      }
-    }, [walletProvider]);
+  const { isConnected } = useWeb3ModalAccount();
 
   return (
     <header className="py-10 px-2 text-[18px] font-bold sticky top-0 bg-gradient-to-tr from-darkGrey to-lightGrey">
@@ -24,12 +19,13 @@ const Header = () => {
         <p>PeerLend</p>
         </div>
         <nav className="flex justify-between items-center w-2/3">
-            <div>
-            <NavLink to="/governance" className="mr-8">Governance</NavLink>
+        {!isConnected && ( <div>
+          <NavLink to="/governance" className="mr-8">Governance</NavLink>
             <NavLink to="/marketplace" className="mr-8">MarketPlace</NavLink>
-            <NavLink to="">Blog</NavLink>
+            {/* <NavLink to="">Blog</NavLink> */}
             </div>
-            <div >
+          )}
+            <div className="ml-auto">
           <w3m-button />
             </div>
         </nav>
@@ -44,7 +40,7 @@ const Header = () => {
                 <div>
                 <NavLink to="governance" className="mb-8 block">Governance</NavLink>
                 <NavLink to="marketplace" className="mb-8 block">MarketPlace</NavLink>
-                <NavLink to="" className="mb-8 block">Blog</NavLink>
+                {/* <NavLink to="" className="mb-8 block">Blog</NavLink> */}
                 </div>
                 <div >
                 <w3m-button />

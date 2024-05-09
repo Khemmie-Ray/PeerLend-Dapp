@@ -145,7 +145,7 @@ const ServiceRequest = () => {
       <div>
         <button
           onClick={handleOpen}
-          className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
+          className="border border-purple text-white py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
         >Service</button>
         <Modal
           open={open}

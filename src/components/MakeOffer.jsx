@@ -137,10 +137,10 @@ const MakeOffer = () => {
     }
 
     return (
-        <>
+        <div className="lg:w-[100%]">
             <button
                 onClick={handleOpen}
-                className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
+                className="border-purple border text-white py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
             >Offer</button>
             <Modal
                 open={open}
@@ -169,7 +169,7 @@ const MakeOffer = () => {
                     }
                 </Box>
             </Modal>
-        </>
+        </div>
     )
 }
 
