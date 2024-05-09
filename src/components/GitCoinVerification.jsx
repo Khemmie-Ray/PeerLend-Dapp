@@ -8,8 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getProvider } from "../constants/providers";
 // import { getProtocolContract } from "../constants/contract";
 
-export const GitCoinVerification = () => {
-  const { chainId,address } = useWeb3ModalAccount();
+const GitCoinVerification = () => {
+  const { chainId, address } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [score, setScore] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ export const GitCoinVerification = () => {
   };
 
   const submitStampAndCheckPassport = async () => {
-    if(walletProvider){
+    if (walletProvider) {
       setError("wallet provider not initialized");
       setLoading(false)
     }
@@ -75,7 +75,7 @@ export const GitCoinVerification = () => {
 
 
   const checkPassport = async () => {
-    if(walletProvider){
+    if (walletProvider) {
       setError("wallet provider not initialized");
       setLoading(false)
     }
@@ -92,8 +92,10 @@ export const GitCoinVerification = () => {
         {loading ? 'Processing...' : 'Verify Stamp & Check Score'}
       </button>
       {loading && <CircularProgress />}
-        <p>Your passport score is: <span className="font-black text-[22px]">{score}</span></p>
+      <p>Your passport score is: <span className="font-black text-[22px]">{score}</span></p>
 
     </div>
   );
 };
+
+export default GitCoinVerification;
