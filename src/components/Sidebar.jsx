@@ -17,7 +17,7 @@ const Sidebar = () => {
   return (
     <div className="bg-bg-gray w-[20%] h-[80vh] py-8 flex flex-col">
         <NavLink to="/dashboard"  end className="flex items-center p-4 my-4" style={({isActive}) => isActive ? activeStyle : null }><MdDashboard className="mr-2" end /> Dashboard</NavLink>
-        <NavLink to="transaction" className="flex items-center p-4 my-4" style={({isActive}) => isActive ? activeStyle : null }><GrTransaction className="mr-2"/> Transaction</NavLink>
+        {/* <NavLink to="transaction" className="flex items-center p-4 my-4" style={({isActive}) => isActive ? activeStyle : null }><GrTransaction className="mr-2"/> Transaction</NavLink> */}
         <NavLink to="connectedGovernance" className="flex items-center p-4 my-4" style={({isActive}) => isActive ? activeStyle : null }><RiGovernmentFill className="mr-2" /> Governance</NavLink>
         {/* <NavLink to="notification" className="flex items-center p-4 my-4" style={({isActive}) => isActive ? activeStyle : null }><IoNotifications className="mr-2" /> Notifications</NavLink> */}
         <div className="mt-auto">
