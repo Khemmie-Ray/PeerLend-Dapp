@@ -22,12 +22,12 @@ const style = {
     left: '50%',
     color: 'white',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     backgroundColor: '#1E1D34',
-    p: 4,
+    p: 3,
 };
 
 const RespondToOffer = () => {
@@ -36,7 +36,7 @@ const RespondToOffer = () => {
     const [requestId, setRequestId] = useState("");
     const [offerId, setOfferId] = useState("");
     const [offers, setOffers] = useState([]);
-    const [borrowerAddress, setBorrowerAddress] = useState("");
+    const [lenderAddress, setlenderAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
     const [returnDate, setReturnDate] = useState(1767139200 * 1000);
@@ -46,8 +46,9 @@ const RespondToOffer = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+
     async function handleChange(event) {
-        if (event.target.value === "" || event.target.value === "0" || event.target.value === undefined) {
+        if (event.target.value === "" || event.target.value === undefined) {
             setRequestId("");
             return console.log("No request id found");
         }
@@ -63,13 +64,15 @@ const RespondToOffer = () => {
 
             console.log(request);
 
-            setBorrowerAddress(request["1"]);
+            setlenderAddress(request["1"]);
             setAmount(request["2"].toString());
             setInterest(request["3"].toString());
             setReturnDate(Number(request["6"]) * 1000);
             setCollateralCurrencyAddress(request["8"]);
 
-            setOffers(request["5"].toArray());
+            setOffers([...request["5"]]);
+
+            console.log("Offers", offers);
 
             switch (request["9"].toString()) {
                 case "0":
@@ -90,7 +93,7 @@ const RespondToOffer = () => {
             });
             console.log("Request not found");
 
-            setBorrowerAddress("");
+            setlenderAddress("");
             setAmount(0);
             setInterest(0);
             setReturnDate(1767139200 * 1000);
@@ -100,55 +103,98 @@ const RespondToOffer = () => {
         }
     }
 
-    // async function handleMakeOffer() {
-    //     if (requestId === "" || requestId === "0" || requestId === undefined) {
-    //         toast.error("Collateral amount is required", {
-    //             position: "top-center",
-    //         })
-    //         return console.log("No collateral amount found");
-    //     }
+    async function handleOfferId(event) {
+        if (requestId == "" || requestId == undefined) {
+            setOfferId("");
+            toast.error("No request id found")
+            return console.log("No request id found");
+        }
+        if (event.target.value === "" || event.target.value === undefined) {
+            setOfferId("");
+            return console.log("No offer id found");
+        }
 
-    //     const provider = getProvider(walletProvider);
-    //     const signer = await provider.getSigner();
+        const _id = Number(event.target.value)
 
-    //     const contract = await getProtocolContract(signer);
+        if (_id >= offers.length) {
+            toast.error("Offer not found")
+            return console.log("Offer not found")
+        }
 
-    //     // const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
+        setOfferId(event.target.value);
 
-    //     try {
-    //         const _returnDate = new Date(returnDate).getTime() / 1000;
-    //         console.log(borrowerAddress, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
-    //         const transaction = await contract.makeLendingOffer(
-    //             borrowerAddress, requestId, amount, interest, returnDate, collateralCurrencyAddress);
-    //         const receipt = await transaction.wait();
-    //         console.log(receipt);
-    //         toast.success("Offer made successful", {
-    //             position: "top-center",
-    //         });
-    //     } catch (error) {
-    //         toast.error("Offer transaction failed", {
-    //             position: "top-center",
-    //         });
-    //         console.log(error);
-    //     } finally {
-    //         setCollateralAmount(0);
-    //         setCollateralCurrencyAddress("");
-    //         setAmount(0);
-    //         setInterest(0);
-    //         setReturnDate(0);
-    //         setRequestId("");
-    //         setCollateralCurrencyAddress("");
-    //         setRequestStatus("");
-    //         handleClose();
-    //     }
-    // }
+        const _offer = offers[_id];
+
+        setlenderAddress(_offer["2"]);
+        setAmount(_offer["3"]);
+        setInterest(_offer["4"]);
+        setReturnDate(_offer["5"]);
+
+        console.log(_offer)
+    }
+
+    async function handleRespondToOffer(status) {
+        if (requestId === "" || requestId === "0" || requestId === undefined) {
+            return toast.error("Request Id is required", {
+                position: "top-center",
+            });
+        }
+
+        if (offerId === "" || offerId === undefined) {
+            return toast.error("Offer Id is required", {
+                position: "top-center",
+            });
+        }
+
+        if (status !== "1" && status !== "2") {
+            return toast.error("Invalid status", {
+                position: "top-center",
+            });
+        }
+
+        const provider = getProvider(walletProvider);
+        const signer = await provider.getSigner();
+
+        const contract = await getProtocolContract(signer);
+
+        try {
+            const transaction = await contract.respondToLendingOffer(requestId, offerId, status);
+            const receipt = await transaction.wait();
+            console.log(receipt);
+
+            if (status === "1") {
+                toast.success("Offer rejected", {
+                    position: "top-center",
+                });
+            } else if (status === "2") {
+                toast.success("Offer accepted", {
+                    position: "top-center",
+                });
+            }
+        } catch (error) {
+            toast.error("Offer transaction failed", {
+                position: "top-center",
+            });
+            console.log(error);
+        } finally {
+            setCollateralAmount(0);
+            setCollateralCurrencyAddress("");
+            setAmount(0);
+            setInterest(0);
+            setReturnDate(0);
+            setRequestId("");
+            setCollateralCurrencyAddress("");
+            setRequestStatus("");
+            handleClose();
+        }
+    }
 
     return (
-        <>
+        <div>
             <button
                 onClick={handleOpen}
                 className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
-            >Offer</button>
+            >Respond</button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -156,27 +202,23 @@ const RespondToOffer = () => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Make offer</p>
                     <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
-                    <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
-                    <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
-                        value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals)}
-                        onChange={(e) => setAmount(e.target.value)} />
-                    {/* <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={(new Date(returnDate).toISOString().slice(0, 10))} disabled /> */}
-                    <input type="date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={new Date(1767139200 * 1000).toISOString().slice(0, 10)} disabled />
-                    <input type="text" placeholder='Collateral currency address' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={TokenList[collateralCurrencyAddress]?.name} disabled />
-                    <input type="text" placeholder='Request status' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestStatus} disabled />
-                    {/* {
-                        borrowerAddress !== address ?
-                            requestStatus === "Open" ?
-                                <button
-                                    onClick={handleMakeOffer}
-                                    className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4"
-                                >Make offer</button> : null : null
-                    } */}
+                    <input type="text" placeholder='Offer Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={offerId} onChange={handleOfferId} />
+                    <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Offer {offerId}</p>
+                    <p className='lg:text-[20px] md:text-[20px] text-[15px] mb-4'>Total offers: {offers.length}</p>
+                    <p>Lender: {lenderAddress}</p>
+                    <p>Amount: {ethers.formatUnits(amount, TokenList[collateralCurrencyAddress]?.decimals)}</p>
+                    <p>Interest: {interest.toString()}</p>
+
+                    <button
+                        onClick={() => handleRespondToOffer("2")}
+                        className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Accept</button>
+                    <button
+                        onClick={() => handleRespondToOffer("1")}
+                        className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4">Reject</button>
                 </Box>
             </Modal>
-        </>
+        </div>
     )
 }
 

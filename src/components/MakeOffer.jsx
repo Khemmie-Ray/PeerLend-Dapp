@@ -8,10 +8,6 @@ import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 import { ethers } from "ethers";
 
@@ -37,7 +33,7 @@ const MakeOffer = () => {
     const [borrowerAddress, setBorrowerAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
-    const [returnDate, setReturnDate] = useState(1767139200 * 1000);
+    const [returnDate, setReturnDate] = useState(1767139200);
     const [collateralCurrencyAddress, setCollateralCurrencyAddress] = useState("");
     const [requestStatus, setRequestStatus] = useState("");
     const [open, setOpen] = useState(false);
@@ -53,16 +49,19 @@ const MakeOffer = () => {
         const _requestId = event.target.value;
         setRequestId(event.target.value);
 
+
         try {
             const provider = getProvider(walletProvider);
 
             const contract = await getProtocolContract(provider);
             const request = await contract.getRequestById(_requestId);
 
+            console.log(request);
+
             setBorrowerAddress(request["1"]);
             setAmount(request["2"].toString());
             setInterest(request["3"].toString());
-            setReturnDate(Number(request["6"]) * 1000);
+            setReturnDate(Number(request["6"]));
             setCollateralCurrencyAddress(request["8"]);
 
             switch (request["9"].toString()) {
@@ -105,13 +104,15 @@ const MakeOffer = () => {
         const provider = getProvider(walletProvider);
         const signer = await provider.getSigner();
 
+        // const collateralContract = await getErc20TokenContract(signer, collateralCurrencyAddress);
+
         const contract = await getProtocolContract(signer);
 
         // const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
 
         try {
             const _returnDate = new Date(returnDate).getTime() / 1000;
-            console.log(borrowerAddress, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
+            console.log(address, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
             const transaction = await contract.makeLendingOffer(
                 borrowerAddress, requestId, amount, interest, returnDate, collateralCurrencyAddress);
             const receipt = await transaction.wait();
@@ -125,13 +126,11 @@ const MakeOffer = () => {
             });
             console.log(error);
         } finally {
-            setCollateralAmount(0);
             setCollateralCurrencyAddress("");
             setAmount(0);
             setInterest(0);
             setReturnDate(0);
             setRequestId("");
-            setCollateralCurrencyAddress("");
             setRequestStatus("");
             handleClose();
         }
@@ -154,8 +153,8 @@ const MakeOffer = () => {
                     <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
                     <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
                     <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
-                        value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals)}
-                        onChange={(e) => setAmount(e.target.value)} />
+                        value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals).toString()}
+                        onChange={(e) => setAmount(e.target.value)} disabled />
                     {/* <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={(new Date(returnDate).toISOString().slice(0, 10))} disabled /> */}
                     <input type="date" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={new Date(1767139200 * 1000).toISOString().slice(0, 10)} disabled />
                     <input type="text" placeholder='Collateral currency address' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={TokenList[collateralCurrencyAddress]?.name} disabled />

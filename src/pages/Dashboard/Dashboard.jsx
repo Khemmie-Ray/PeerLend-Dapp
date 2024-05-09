@@ -8,6 +8,7 @@ import RequestsTable from "../../components/RequestsTable";
 
 import UseFetchRequests from "../../Hooks/UseFetchRequests";
 import EmailVerification from "../../components/EmailVerification";
+import RespondToOffer from "../../components/RespondToOffer";
 
 
 const Dashboard = () => {
@@ -48,6 +49,10 @@ const Dashboard = () => {
           <div >
             <p>Make offer</p>
             <MakeOffer />
+          </div>
+          <div>
+            <p>Respond to offer</p>
+            <RespondToOffer />
           </div>
           <div>
             <p>Service request</p>
