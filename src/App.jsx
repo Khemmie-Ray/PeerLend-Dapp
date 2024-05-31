@@ -12,7 +12,7 @@ import MarketPlace from "./pages/MarketPlace";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
-import Transaction from "./pages/Dashboard/Transaction";
+import Profile from "./pages/Dashboard/Profile";
 
 configWeb3Modal();
 
@@ -26,13 +26,14 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/dashboard" element={<DashboardLayout />}>
       <Route index element={<Dashboard />} />
       <Route path="connectedGovernance" element={<ConnectedGovernance />} />
+      <Route path="profile" element={<Profile />} />
     </Route>
   </Route>
 ))
 
 const App = () => {
   return (
-    <div className=" w-full mx-auto  min-h-[100vh] text-white font-ubuntu from-darkGrey to-lightGrey bg-gradient-to-tr">
+    <div className=" w-full mx-auto  min-h-[100vh] text-text-bg font-ubuntu from-darkGrey to-lightGrey bg-gradient-to-tr">
       <RouterProvider router={router} />
     </div>
   )
