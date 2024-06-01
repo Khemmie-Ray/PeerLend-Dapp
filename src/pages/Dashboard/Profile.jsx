@@ -31,28 +31,27 @@ const Profile = () => {
 
   return (
     <main>
-      <h2 className="lg:text-[24px] md:text-[24px] text-[20px] mb-6 flex justify-between">User Data <span className="text-[16px]">ebukiz@gmail.com</span></h2>
+      <h2 className="lg:text-[26px] md:text-[26px] text-[20px] mb-6 flex justify-between font-bold">User Data <span className="text-[16px]">ebukiz@gmail.com</span></h2>
       <section className="flex lg:flex-row md:flex-row flex-col justify-between">
-        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%]">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <h3>Gitcoin Score</h3>
-          <p>{storedValue}</p>
+          <p className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">{storedValue}</p>
         </div>
-        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%]">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <h3>Total Collateral</h3>
-          <p><span>&#36;</span>{parseFloat(formatUnits(collateral, 18)).toFixed(2)}</p>
+          <p className="lg:text-[28px] md:text-[28px] text-[20px] font-bold"><span>&#36;</span>{parseFloat(formatUnits(collateral, 18)).toFixed(2)}</p>
         </div>
-        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%]">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <h3>Total Requests</h3>
-          <p>5</p>
+          <p className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">5</p>
         </div>
-        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%]">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <h3>Total Offer</h3>
-          <p>5</p>
+          <p className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">5</p>
         </div>
       </section>
       <section>
-        <h2 className="lg:text-[24px] md:text-[24px] text-[20px] mt-8">Transaction History</h2>
-
+        <h2 className="lg:text-[26px] md:text-[26px] text-[20px] font-bold mt-8">Transaction History</h2>
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box

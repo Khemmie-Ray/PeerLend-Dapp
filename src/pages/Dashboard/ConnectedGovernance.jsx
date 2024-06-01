@@ -19,37 +19,45 @@ import { all } from "axios";
 
 const ConnectedGovernance = () => {
   const [value, setValue] = useState("Create");
+  const [proposalValue, setProposalValue] = useState("Active");
   const allProposals = UseFetchProposals()
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue(newValue); 
+  };
+
+  const handleProposal = (event, proposalVal) => {
+    setProposalValue(proposalVal)
   };
 
   return (
-    <main className="w-[90%] mx-auto">
-      <section className="lg:w-[50%] md:w-[50%] w-[100%] my-10">
-        <h2 className="lg:text-[42px] md:text-[42px] text-[24px] font-bold mb-4">
+    <main>
+        <h2 className="lg:text-[26px] md:text-[26px] text-[20px] font-bold mb-4">
           Governance
         </h2>
-      </section>
       <section className="flex justify-between lg:flex-row md:flex-row flex-col">
-        <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
+      <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>Total Proposals</p>
-          <h3 className="text-[40px] font-bold my-2">{allProposals.length}</h3>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">{allProposals.length}</h3>
         </div>
-        <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>Total Votes</p>
-          <h3 className="text-[40px] font-bold my-2">1000</h3>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">1000</h3>
         </div>
-        <div className="lg:w-[32%] md:w-[32%] w-[100%] bg-bg-gray border border-bg-ash h-[166px] p-4 rounded-lg flex flex-col justify-center mb-4">
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
+          <p>My Votes</p>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">2</h3>
+        </div>
+        <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>Total Delegated Votes</p>
-          <h3 className="text-[40px] font-bold my-2">230,000</h3>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">23,000</h3>
         </div>
       </section>
-      <section className=" bg-bg-gray border border-bg-ash  lg:p-8  md:p-8 py-4 px-2 rounded-lg my-12">
-        <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold">
-          Proposal
+      <section>
+        <h2 className="lg:text-[26px] md:text-[26px] text-[20px] font-bold mt-10">
+        Governance Operations
         </h2>
+        <div className=" bg-bg-gray border border-bg-ash/45  lg:p-8  md:p-8 py-4 px-2 rounded-lg my-12">
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box
@@ -66,12 +74,14 @@ const ConnectedGovernance = () => {
                 aria-label="create and update proposals"
                 TabIndicatorProps={{
                   style: {
-                    backgroundColor: "#A604F2",
+                    backgroundColor: "#E0BB83",
                   },
                 }}
               >
                 <Tab value="Create" label="Create" style={{ color: "white" }} />
                 <Tab value="Update" label="Update" style={{ color: "white" }} />
+                <Tab value="delegate" label="delegate" style={{ color: "white" }} />
+                <Tab value="Voting power" label="Voting power" style={{ color: "white" }} />
               </TabList>
             </Box>
             <TabPanel value="Create">
@@ -80,8 +90,8 @@ const ConnectedGovernance = () => {
               </div>
             </TabPanel>
             <TabPanel value="Update">
-              <div className="bg-deepBlue rounded-lg py-8 px-4 mb-4">
-                <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
+              <div>
+                <h2 className="lg:text-[22px] md:text-[22px] text-[18px] mb-6">
                   Update Proposal Status
                 </h2>
                 <div className="flex w-[100%] justify-between flex-col lg:flex-row md:flex-row">
@@ -96,68 +106,151 @@ const ConnectedGovernance = () => {
                     className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
                   />
                 </div>
-                <div className="lg:w-[50%] md:w-[50%] w-[100%] mx-auto">
-                  <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center">
+                <div className="lg:w-[40%] md:w-[40%] w-[100%] mx-auto">
+                  <button className="bg-[#E0BB83] text-darkGrey py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center font-bold">
                     Update Proposal
                   </button>
                 </div>
               </div>
             </TabPanel>
-          </TabContext>
-        </Box>
-      </section>
-      <section className="mt-14 flex flex-col lg:flex-row md:flex-row justify-between items-center">
-        <div className="bg-bg-gray border border-bg-ash  p-8 rounded-lg lg:w-[60%] md:w-[60%] w-[100%] mb-auto">
-          <h2
-            className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
-            Proposals
-          </h2>
-          {allProposals.map((info) => (<div className="bg-deepBlue rounded-lg p-4 mb-4">
-            <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
-              <p className="truncate">{info.address}</p>
-            <button className="border border-purple px-4 py-2 rounded-lg text-[18px] my-4">
-              Vote
-            </button>
-          </div>))}
-        </div>
-        <div className="lg:w-[35%] md:w-[35%] w-[100%] lg:mb-10 md:mb-10 lg:mt-0 md:mt-0 my-10">
-          <div className=" flex flex-col ml-auto bg-bg-gray border border-bg-ash  p-8 rounded-lg mb-4">
-            <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
+            <TabPanel value="delegate">
+            <div>
+            <h2 className="lg:text-[22px] md:text-[22px] text-[18px] mb-6">
               Delegate Vote
             </h2>
+            <div className="flex w-[100%] justify-between flex-col lg:flex-row md:flex-row">
             <input
               type="text"
               placeholder="Delegate Address"
-              className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
+              className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
             />
             <input
               type="text"
               placeholder="Proposal ID"
-              className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
+              className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
             />
-            <button className="bg-purple py-2 px-12 rounded-lg lg:text-[20px] md:text-[20px] text-[16px]">
+          </div>
+          <div className="lg:w-[40%] md:w-[40%] w-[100%] mx-auto">
+          <button className="bg-[#E0BB83] text-darkGrey py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center font-bold">
               Delegate Vote &rarr;
             </button>
+            </div>
           </div>
-          <div className=" flex flex-col ml-auto bg-bg-gray border border-bg-ash  p-8 rounded-lg  mb-4">
-            <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold mt-4">
+            </TabPanel>
+            <TabPanel value="Voting power">
+            <div>
+            <h2 className="lg:text-[22px] md:text-[22px] text-[18px] mb-6">
               Voting Power
             </h2>
-            <p className="mb-4">Balance: 100peer</p>
+            <p className="mb-6">Balance: 100peer</p>
             <input
               type="text"
               placeholder="Enter amount"
-              className="rounded-lg w-[100%] px-4 py-2 bg-[#ffffff23] backdrop-blur-lg mb-4"
+              className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
             />
-            <div className="">
-              <button className="text-white border border-purple py-2 px-4 rounded-lg text-[18px] lg:mr-2 md:mr-2 mr-0 w-[100%] mb-4">
+              <div className="w-[100%] mx-auto flex flex-col lg:flex-row md:flex-row my-6">
+              <button className="text-white border border-bg-ash py-2 px-4 rounded-lg text-[18px] lg:mr-2 md:mr-2 mr-0 w-[100%] mb-4">
                 Reduce Power &rarr;
               </button>
-              <button className="bg-purple py-2 px-4 rounded-lg text-[18px] w-[100%] mb-4">
+              <button className="bg-bg-ash text-darkGrey font-bold py-2 px-4 rounded-lg text-[18px] w-[100%] mb-4">
                 Add Power &rarr;
               </button>
             </div>
           </div>
+            </TabPanel>
+          </TabContext>
+        </Box>
+        </div>
+      </section>
+      <section>
+      <h2 className="lg:text-[26px] md:text-[26px] text-[20px] font-bold mt-10">
+        Proposal Data
+        </h2>
+        <div className="flex flex-col lg:flex-row md:flex-row justify-between items-center">
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={proposalValue}>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: "divider",
+                width: "100%",
+                display: "flex",
+                justifyContent: "end",
+              }}
+            >
+              <TabList
+                onChange={handleProposal}
+                aria-label="Proposal data"
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: "#E0BB83",
+                  },
+                }}
+              >
+                <Tab value="Active" label="Active" style={{ color: "white" }} />
+                <Tab value="Inactive" label="Inactive" style={{ color: "white" }} />
+                <Tab value="Rejected" label="Rejected" style={{ color: "white" }} />
+                <Tab value="Approved" label="Approved" style={{ color: "white" }} />
+              </TabList>
+            </Box>
+            <TabPanel value="Active">
+            <div className="flex justify-between">
+            <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
+                <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4"/>
+                {allProposals.map((info) => (<div className="p-4">
+                <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
+                  <p className="truncate">{info.address}</p>
+                <button className="border border-bg-ash px-4 py-2 rounded-lg text-[18px] my-4">
+                  Vote
+                </button>
+              </div>))}
+            </div>    
+            </div>
+            </TabPanel>
+            <TabPanel value="Inactive">
+            <div className="flex justify-between">
+            <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
+                <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4"/>
+                {allProposals.map((info) => (<div className="p-4">
+                <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
+                  <p className="truncate">{info.address}</p>
+                <button className="border border-bg-ash px-4 py-2 rounded-lg text-[18px] my-4">
+                  Vote
+                </button>
+              </div>))}
+            </div>    
+            </div>
+            </TabPanel>
+            <TabPanel value="Rejected">
+            <div className="flex justify-between">
+            <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
+                <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4"/>
+                {allProposals.map((info) => (<div className="p-4">
+                <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
+                  <p className="truncate">{info.address}</p>
+                <button className="border border-bg-ash px-4 py-2 rounded-lg text-[18px] my-4">
+                  Vote
+                </button>
+              </div>))}
+            </div>    
+            </div>
+            </TabPanel>
+            <TabPanel value="Approved">
+            <div className="flex justify-between">
+            <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
+                <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4"/>
+                {allProposals.map((info) => (<div className="p-4">
+                <p className="uppercase font-bold"><span className="mr-2">ID: {Number(info.id)}</span> - {info.title}</p>
+                  <p className="truncate">{info.address}</p>
+                <button className="border border-bg-ash px-4 py-2 rounded-lg text-[18px] my-4">
+                  Vote
+                </button>
+              </div>))}
+            </div>    
+            </div>
+            </TabPanel>
+          </TabContext>
+        </Box>
         </div>
       </section>
     </main>
