@@ -133,6 +133,16 @@ const EmailVerification = () => {
     return (
         <div className="flex flex-col items-center mt-2">
             <div className="flex items-center">
+            <button className="border border-bg-ash py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
+                handleOpen()
+            }}>Verify &rarr;</button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
             <input
                 type="text"
                 placeholder='email'
@@ -141,7 +151,11 @@ const EmailVerification = () => {
             <button className="border border-bg-ash py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
                 if (!email) return toast.error("Email is required");
                 handleAction()
-            }}>Verify &rarr;</button></div>
+            }}>Verify &rarr;</button>
+            </Box>  
+            </Modal>
+            </div>
+          
              <button className="border border-bg-ash py-2 px-4 rounded-lg text-[18px] w-[50%] mb-4" onClick={() => {
                 handleOpen()
             }}>OTP&rarr;</button>
@@ -157,7 +171,6 @@ const EmailVerification = () => {
                         type="text"
                         placeholder='Email'
                         value={email}
-                        disabled
                         className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" />
                     <input
                         type="text"

@@ -49,14 +49,13 @@ const CreateProposal = () => {
             position: "top-center",
           });
         } finally {
-            setDeadline("")
-    
+            setDeadline("")   
       };
     }
       
   return (
-    <div className="bg-deepBlue rounded-lg py-8 px-4 mb-4">
-      <h2 className="lg:text-[36px] md:text-[36px] text-[24px] font-bold my-4">
+    <div>
+      <h2 className="lg:text-[22px] md:text-[22px] text-[18px] mb-6">
         Create Proposal
       </h2>
       <div className="flex w-[100%] justify-between flex-col lg:flex-row md:flex-row">
@@ -87,8 +86,8 @@ const CreateProposal = () => {
           className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
         />
       </div>
-      <div className="lg:w-[50%] md:w-[50%] w-[100%] mx-auto">
-        <button className="bg-purple py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center" onClick={handleCreateProposal}>
+      <div className="lg:w-[40%] md:w-[40%] w-[100%] mx-auto">
+        <button className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4 mx-auto text-center font-bold" onClick={handleCreateProposal}>
           Create Proposals
         </button>
       </div>

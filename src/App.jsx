@@ -13,6 +13,7 @@ import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
 import Profile from "./pages/Dashboard/Profile";
+import TermsCondition from "./pages/Dashboard/TermsCondition";
 
 configWeb3Modal();
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index element={<Dashboard />} />
       <Route path="connectedGovernance" element={<ConnectedGovernance />} />
       <Route path="profile" element={<Profile />} />
+      <Route path="terms" element={<TermsCondition />} />
     </Route>
   </Route>
 ))
