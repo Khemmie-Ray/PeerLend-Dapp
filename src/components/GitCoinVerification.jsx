@@ -7,6 +7,7 @@ import { CircularProgress, Container, Typography, Button } from "@mui/material";
 import 'react-toastify/dist/ReactToastify.css';
 import { getProvider } from "../constants/providers";
 // import { getProtocolContract } from "../constants/contract";
+import useLocalStorage from "../Hooks/useLocalStorage";
 
 const GitCoinVerification = () => {
   const { chainId, address } = useWeb3ModalAccount();
@@ -14,6 +15,8 @@ const GitCoinVerification = () => {
   const [score, setScore] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const [storedValue, setValue] = useLocalStorage("passportScore", "");
 
 
   const headers = import.meta.env.VITE_PUBLIC_GC_API
@@ -83,6 +86,7 @@ const GitCoinVerification = () => {
     console.log(response)
     const passportData = response.data;
     setScore(passportData.score ? Math.round(passportData.score * 100) / 100 : '');
+    setValue(Math.round(passportData.score * 100) / 100);
   };
 
   return (
@@ -92,7 +96,7 @@ const GitCoinVerification = () => {
         {loading ? 'Processing...' : 'Verify Gitcoin Score'}
       </button>
       {loading && <CircularProgress />}
-        <p>Your passport score is: <span className="font-black text-[22px]">{score}</span></p>
+      <p>Your passport score is: <span className="font-black text-[22px]">{score}</span></p>
     </div>
   );
 };
