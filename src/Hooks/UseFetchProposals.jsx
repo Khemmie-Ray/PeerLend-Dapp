@@ -14,22 +14,20 @@ const UseFetchProposals = () => {
             const contract = getGovernanceContract(readOnlyProvider);
             const res = await contract.getAllProposals();
             console.log(res)
-            const converted = res?.map((item)=>{
-                return{id: item[0],
-                address: item[1],
-                title: item[2],
-               proposedOptions: item[3]?.map((ite)=>{
-                    return{
-                    }
-                }),
-                votes: item[4]?.map((info)=>{
-                    return{
-                    }
-                }),
-                status: item[5],
-                deadline: item[6],
-               }
-            }) 
+            const converted = res?.map((item) => {
+                return {
+                    id: item[0],
+                    address: item[1],
+                    title: item[2],
+                    proposedOptions: item[3],
+                    votes: item[4]?.map((info) => {
+                        return {
+                        }
+                    }),
+                    status: item[5],
+                    deadline: item[6],
+                }
+            })
             setAllProposals(converted)
         } catch (error) {
             console.error(error);
