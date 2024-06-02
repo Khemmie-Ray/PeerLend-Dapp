@@ -12,8 +12,9 @@ import MarketPlace from "./pages/MarketPlace";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
-import Profile from "./pages/Dashboard/Profile";
 import TermsCondition from "./pages/Dashboard/TermsCondition";
+import Transaction from "./pages/Dashboard/Transaction";
+import TransactionDetails from "./pages/Dashboard/TransactionDetails";
 
 configWeb3Modal();
 
@@ -26,8 +27,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     </Route>
     <Route path="/dashboard" element={<DashboardLayout />}>
       <Route index element={<Dashboard />} />
+      <Route path="transaction" element={<Transaction />} />
+      <Route path="transaction/:id" element={<TransactionDetails />} />
       <Route path="connectedGovernance" element={<ConnectedGovernance />} />
-      <Route path="profile" element={<Profile />} />
       <Route path="terms" element={<TermsCondition />} />
     </Route>
   </Route>

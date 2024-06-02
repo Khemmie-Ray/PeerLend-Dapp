@@ -141,11 +141,11 @@ const ServiceRequest = () => {
   };
 
   return (
-    <div>
+    <div className="lg:w-[48%] md:w-[48%] w-[100%]">
       <div>
         <button
           onClick={handleOpen}
-          className="border border-purple text-white py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
+          className="border border-bg-ash/50 text-white py-2 px-4 rounded-lg text-[16px] w-[100%] my-4"
         >Service</button>
         <Modal
           open={open}
@@ -161,7 +161,7 @@ const ServiceRequest = () => {
             <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} disabled />
             <input type="text" placeholder='Total Repayment' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={totalRepayment} disabled />
             <input type="text" placeholder='Return date' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={returnDate} disabled />
-            <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleRequest}>Service Request &rarr;</button>
+            <button className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg text-[16px] w-[100%] my-4 font-bold" onClick={handleRequest}>Service Request &rarr;</button>
           </Box>
         </Modal>
       </div>
