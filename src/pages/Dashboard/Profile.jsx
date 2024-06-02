@@ -4,6 +4,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import React, { useState } from 'react';
+import requestImage from '../../assets/request.jpeg'
 
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
@@ -82,7 +83,7 @@ const Profile = () => {
                   if (data?.address == address) {
                     return (
                       <div key={index} className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
-                        <img src="https://img.freepik.com/free-vector/3d-cashback-with-flying-gold-coins-dollar-bill_88138-974.jpg?w=1800&t=st=1717184738~exp=1717185338~hmac=40c12b1e890a608add26b80343d64ed3f04dcf8ce411fada1dcb42a9c0c7b172" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4" />
+                        <img src={requestImage} alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4" />
                         <p>Amount: {formatUnits(data?.amount, TokenList[data?.loanReq]?.decimals)}</p>
                         <p>Rate: {data?.interest.toString()}<span>&#37;</span></p>
                         <p>Repayment: {formatUnits(data?.repayment, TokenList[data?.loanReq]?.decimals + 1)}</p>

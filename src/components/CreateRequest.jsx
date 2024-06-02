@@ -87,7 +87,7 @@ const CreateRequest = () => {
   return (
     <div>
       <div>
-        <button className="border border-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleOpen}>Create Request</button>
+        <button className="border border-bg-ash/50 text-white py-2 px-4 rounded-lg text-[16px] w-[100%] lg:w-[50%] md:w-[50%] my-2 hover:bg-bg-ash hover:text-darkGrey hover:font-bold" onClick={handleOpen}>Create Request</button>
         <Modal
           open={open}
           onClose={handleClose}

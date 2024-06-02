@@ -90,13 +90,12 @@ const GitCoinVerification = () => {
   };
 
   return (
-    <div className="my-4">
-      <h3 className="lg:text-[26px] md:text-[26px] text-[18px] font-bold">Gitcoin Passport Scorer</h3>
-      <button className="border border-purple text-white py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[60%] my-4 mx-auto text-center" onClick={handleAction} disabled={loading}>
-        {loading ? 'Processing...' : 'Verify Gitcoin Score'}
+    <div>
+      <button className="border border-bg-ash/50 text-white py-2 px-4 rounded-lg my-2 text-[16px]my-2 hover:bg-bg-ash hover:text-darkGrey hover:font-bold  w-[60%] mx-auto text-center" onClick={handleAction} disabled={loading}>
+        {loading ? 'Processing...' : 'Verify Score'}
       </button>
       {loading && <CircularProgress />}
-      <p>Your passport score is: <span className="font-black text-[22px]">{score}</span></p>
+      <p>Passport score: <span className="font-black text-[20px]">{score}</span></p>
     </div>
   );
 };
