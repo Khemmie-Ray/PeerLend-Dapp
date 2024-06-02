@@ -137,10 +137,10 @@ const MakeOffer = () => {
     }
 
     return (
-        <div className="lg:w-[100%]">
+        <div className="lg:w-[48%] md:w-[48%] w-[100%]">
             <button
                 onClick={handleOpen}
-                className="border-purple border text-white py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[100%] my-4"
+                className="border-bg-ash/50 border text-white py-2 px-4 rounded-lg text-[16px] w-[100%] my-4"
             >Offer</button>
             <Modal
                 open={open}
@@ -164,7 +164,7 @@ const MakeOffer = () => {
                             requestStatus === "Open" ?
                                 <button
                                     onClick={handleMakeOffer}
-                                    className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4"
+                                    className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg text-[16px] w-[100%] my-4 font-bold"
                                 >Make offer</button> : null : null
                     }
                 </Box>

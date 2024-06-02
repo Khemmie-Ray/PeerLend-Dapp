@@ -53,7 +53,7 @@ const ConnectedGovernance = () => {
         </div>
         <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>Total Votes</p>
-          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">1000</h3>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">15</h3>
         </div>
         <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>My Votes</p>
@@ -61,7 +61,7 @@ const ConnectedGovernance = () => {
         </div>
         <div className="bg-bg-gray border border-bg-ash/50 p-6 rounded-lg w-[100%] lg:w-[23%] md:w-[23%] text-center">
           <p>Total Delegated Votes</p>
-          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">23,000</h3>
+          <h3 className="lg:text-[28px] md:text-[28px] text-[20px] font-bold">6</h3>
         </div>
       </section>
       <section>
@@ -176,7 +176,7 @@ const ConnectedGovernance = () => {
         <h2 className="lg:text-[26px] md:text-[26px] text-[20px] font-bold mt-10">
           Proposal Data
         </h2>
-        <div className="flex flex-col lg:flex-row md:flex-row justify-between items-center">
+        <div className="flex flex-col lg:flex-row md:flex-row justify-between items-center flex-wrap">
           <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={proposalValue}>
               <Box
@@ -204,7 +204,7 @@ const ConnectedGovernance = () => {
                 </TabList>
               </Box>
               <TabPanel value="Active">
-                <div className="flex justify-between">
+                <div className="flex justify-between lg:flex-row md:flex-row flex-col flex-wrap">
                   {
                     allProposals.map((info, proposalId) => (
                       <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
@@ -213,23 +213,24 @@ const ConnectedGovernance = () => {
                         <p className="truncate">{info.address}</p>
                         <p>Deadline: {(new Date(Number(info.deadline) * 1000)).toLocaleString()}</p>
                         <p>{convertStatus(info.status.toString())}</p>
+                        <div className="flex justify-between flex-col lg:flex-row md:flex-row flex-wrap">
                         {info?.proposedOptions.map((options, optionId) => {
                           return (
                             <button
                               key={optionId}
                               onClick={() => handleVote(proposalId, optionId)}
-                              className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[50%] my-4 mx-auto text-center font-bold truncate">
+                              className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg lg:text-[18px] md:text-[18px] text-[16px] w-[45%] my-4 mx-auto text-center font-bold truncate flex">
                               {options}
                             </button>)
                         })
-                        }
+                        }</div>
                       </div>
                     ))
                   }
                 </div>
               </TabPanel>
               <TabPanel value="Inactive">
-                <div className="flex justify-between">
+                  <div className="flex justify-between lg:flex-row md:flex-row flex-col flex-wrap">
                   {allProposals.map((info) => (
                     <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
                       <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4" />
@@ -242,7 +243,7 @@ const ConnectedGovernance = () => {
                 </div>
               </TabPanel>
               <TabPanel value="Rejected">
-                <div className="flex justify-between">
+                  <div className="flex justify-between lg:flex-row md:flex-row flex-col flex-wrap">
                   {allProposals.map((info) => (
                     <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
                       <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4" />
@@ -255,7 +256,7 @@ const ConnectedGovernance = () => {
                 </div>
               </TabPanel>
               <TabPanel value="Approved">
-                <div className="flex justify-between">
+                  <div className="flex justify-between lg:flex-row md:flex-row flex-col flex-wrap">
                   {allProposals.map((info) => (
                     <div className="w-[100%] lg:w-[31%] md:w-[31%] rounded-lg border border-bg-ash/35 bg-bg-gray p-4 mt-6">
                       <img src="https://img.freepik.com/free-photo/3d-illustration-hand-putting-tick-paper_107791-15903.jpg?t=st=1717201122~exp=1717204722~hmac=66b25ce253f83481a7812deb962a9cd16f5858fa92e32c952d25af7ec2defe43&w=1380" alt="" className="w-[100%] rounded-lg h-[200px] object-cover object-center mb-4" />

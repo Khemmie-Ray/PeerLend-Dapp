@@ -2,9 +2,6 @@ import WithdrawCollateral from "../../components/WithdrawCollateral";
 import CreateRequest from "../../components/CreateRequest";
 import GitCoinVerification from "../../components/GitCoinVerification";
 import DepositCollateral from "../../components/DepositCollateral";
-import ServiceRequest from "../../components/ServiceRequest";
-import MakeOffer from "../../components/MakeOffer"
-import RequestsTable from "../../components/RequestsTable";
 import UseFetchRequests from "../../Hooks/UseFetchRequests";
 import { useState } from "react";
 import axios from "axios";
