@@ -26,10 +26,10 @@ const style = {
     p: 4,
 };
 
-const MakeOffer = () => {
+const MakeOffer = (request) => {
     const { walletProvider } = useWeb3ModalProvider();
     const { address } = useWeb3ModalAccount();
-    const [requestId, setRequestId] = useState("");
+    const [requestId, setRequestId] = useState(request.id);
     const [borrowerAddress, setBorrowerAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
@@ -40,21 +40,17 @@ const MakeOffer = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    async function handleChange(event) {
-        if (event.target.value === "" || event.target.value === "0" || event.target.value === undefined) {
+    async function handleChange(requestId) {
+        if (requestId === "" || requestId === "0" || requestId === undefined) {
             setRequestId("");
             return console.log("No request id found");
         }
-
-        const _requestId = event.target.value;
-        setRequestId(event.target.value);
-
 
         try {
             const provider = getProvider(walletProvider);
 
             const contract = await getProtocolContract(provider);
-            const request = await contract.getRequestById(_requestId);
+            const request = await contract.getRequestById(requestId);
 
             console.log(request);
 
@@ -135,6 +131,8 @@ const MakeOffer = () => {
             handleClose();
         }
     }
+
+    handleChange(requestId);
 
     return (
         <div className="lg:w-[48%] md:w-[48%] w-[100%]">
