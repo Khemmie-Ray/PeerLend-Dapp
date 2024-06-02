@@ -12,3 +12,24 @@ export const getWriteProtocolContract = async (provider) => {
 
     return getProtocolContract(signer);
 };
+
+export const isAdmin = (address) => {
+    return address === import.meta.env.VITE_ADMIN_ADDRESS;
+}
+
+export const convertStatus = (status) => {
+    switch (status) {
+        case "0":
+            return "PENDING"
+        case "1":
+            return "ACTIVE"
+        case "2":
+            return "SUCCEEDED"
+        case "3":
+            return "EXPIRED"
+        case "4":
+            return "EXECUTED"
+        case "5":
+            return "DEFEATED"
+    }
+}

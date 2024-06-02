@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { isSupportedChain } from "../utility";
 import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
@@ -8,51 +7,67 @@ import { getGovernanceContract } from "../constants/contract";
 import { getProvider } from "../constants/providers";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { ethers } from "ethers";
 
 const CreateProposal = () => {
-    const { chainId } = useWeb3ModalAccount();
-    const { walletProvider } = useWeb3ModalProvider();
-    const [deadline, setDeadline] = useState('')
-    const [proposedOptions, setproposedOptions] = useState('')
-    const [title, setTitle] = useState('')
-    const [status, setStatus] = useState(0)
- 
-    async function handleCreateProposal() {
-        if (!isSupportedChain(chainId)) return console.error("Wrong network");
-        // if (!isAddress(address)) return console.error("Invalid address");
-        const readWriteProvider = getProvider(walletProvider);
-        const signer = await readWriteProvider.getSigner();
-    
-        const contract = getGovernanceContract(signer);
-    
-        try {
-          const _deadlineDate = new Date(deadline).getTime() / 1000;
-          const transaction = await contract.createProposal(title, proposedOptions, status, _deadlineDate);
-          console.log("transaction: ", transaction);
-          const receipt = await transaction.wait();
-    
-          console.log("receipt: ", receipt);
-    
-          if (receipt.status) {
-            return toast.success("Proposal successful!", {
-              position: "top-center",
-            });
-          }
-    
-          toast.error("Proposal failed!", {
-            position: "top-center",
-          });
-        } catch (error) {
-          console.error(error);
-          toast.error("Proposal failed!", {
-            position: "top-center",
-          });
-        } finally {
-            setDeadline("")   
-      };
+  const { chainId } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+  const [deadline, setDeadline] = useState('')
+  const [deadlineEpoch, setDeadlineEpoch] = useState('')
+  const [proposedOptions, setproposedOptions] = useState([])
+  const [title, setTitle] = useState('')
+  const [status, setStatus] = useState("")
+
+  function handleOptions(e) {
+    const options = e.target.value.split(",");
+    const optionsNew = [];
+
+    options.forEach((option) => {
+      optionsNew.push(option.trim());
+    });
+
+    if (optionsNew[optionsNew.length - 1] === "" || optionsNew[optionsNew.length - 1] === " ") {
+      optionsNew.pop()
     }
-      
+
+    setproposedOptions(optionsNew);
+  }
+
+  async function handleCreateProposal() {
+    const readWriteProvider = getProvider(walletProvider);
+    const signer = await readWriteProvider.getSigner();
+
+    const contract = getGovernanceContract(signer);
+
+    try {
+      console.log(title, proposedOptions, status, deadlineEpoch)
+      const transaction = await contract.createProposal(title, proposedOptions, status, deadlineEpoch);
+      console.log("transaction: ", transaction);
+      const receipt = await transaction.wait();
+
+      console.log("receipt: ", receipt);
+
+      if (receipt.status) {
+        return toast.success("Proposal successful!", {
+          position: "top-center",
+        });
+      }
+
+      toast.error("Proposal failed!", {
+        position: "top-center",
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Proposal failed!", {
+        position: "top-center",
+      });
+    } finally {
+      setDeadline("")
+      setStatus("")
+      setTitle("")
+      setproposedOptions("")
+    };
+  }
+
   return (
     <div>
       <h2 className="lg:text-[22px] md:text-[22px] text-[18px] mb-6">
@@ -62,13 +77,14 @@ const CreateProposal = () => {
         <input
           type="text"
           placeholder="Title"
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
         />
         <input
           type="text"
           placeholder="Options"
-          onChange={(e) => setproposedOptions(e.target.value)}
+          onChange={handleOptions}
           className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
         />
       </div>
@@ -76,13 +92,20 @@ const CreateProposal = () => {
         <input
           type="text"
           placeholder="Status"
+          value={status}
           onChange={(e) => setStatus(e.target.value)}
           className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
         />
         <input
-          type="text"
+          type="date"
           placeholder="Deadline"
-          onChange={(e) => setDeadline(e.target.value)}
+          value={deadline}
+          onChange={(e) => {
+            const now = Date.now();
+            const deadline = Math.floor((Date.parse(e.target.value) - now) / 1000);
+            setDeadline(e.target.value)
+            setDeadlineEpoch(deadline)
+          }}
           className="rounded-lg lg:w-[48%] md:w-[48%] w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4"
         />
       </div>
@@ -95,4 +118,4 @@ const CreateProposal = () => {
   );
 }
 
-export default  CreateProposal
+export default CreateProposal
