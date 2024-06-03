@@ -7,8 +7,6 @@ import {
 import MainLayout from "./Layout/MainLayout";
 import Home from "./pages/Home";
 import { configWeb3Modal } from "./connection";
-import DAOPage from "./pages/DAOPage";
-import MarketPlace from "./pages/MarketPlace";
 import DashboardLayout from "./Layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ConnectedGovernance from "./pages/Dashboard/ConnectedGovernance";
@@ -22,8 +20,6 @@ const router = createBrowserRouter(createRoutesFromElements(
   <Route>
     <Route path="/" element={<MainLayout />} >
       <Route index element={<Home />} />
-      <Route path="/governance" element={<DAOPage />} />
-      <Route path="/marketplace" element={<MarketPlace />} />
     </Route>
     <Route path="/dashboard" element={<DashboardLayout />}>
       <Route index element={<Dashboard />} />

@@ -17,18 +17,8 @@ const Header = () => {
         <div className="flex items-center w-1/3">
         <NavLink to="/"><img src={logoIcon} alt="" className="w-[30px] h-[30px]"/></NavLink>
         <p>PeerLend</p>
-        </div>
-        <nav className="flex justify-between items-center w-2/3">
-        {!isConnected && ( <div>
-          <NavLink to="/governance" className="mr-8">Governance</NavLink>
-            <NavLink to="/marketplace" className="mr-8">MarketPlace</NavLink>
-            {/* <NavLink to="">Blog</NavLink> */}
-            </div>
-          )}
-            <div className="ml-auto">
+        </div> 
           <w3m-button />
-            </div>
-        </nav>
         </div>
             <div className="w-[90%] mx-auto flex justify-between items-center lg:hidden md:hidden">
             <div className="flex items-center w-1/3">
