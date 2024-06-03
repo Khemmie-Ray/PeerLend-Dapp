@@ -1,4 +1,4 @@
-import RequestsTable from "../components/RequestsTable"
+// import RequestsTable from "../components/RequestsTable"
 
 const MarketPlace = () => {
 
@@ -30,7 +30,7 @@ const MarketPlace = () => {
         </div>
        </section>
       <h3 className="lg:text-[50px] md:text-[50px] text-[36px] font-bold">Check out all active requests</h3>
-       <RequestsTable />
+       {/* <RequestsTable /> */}
     </main>
   )
 }
