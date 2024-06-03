@@ -103,15 +103,18 @@ const MakeOffer = (request) => {
         const provider = getProvider(walletProvider);
         const signer = await provider.getSigner();
 
-        // const collateralContract = await getErc20TokenContract(signer, collateralCurrencyAddress);
-
+        const collateralContract = await getErc20TokenContract(signer, collateralCurrencyAddress);
         const contract = await getProtocolContract(signer);
 
         // const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
 
         try {
-            const _returnDate = new Date(returnDate).getTime() / 1000;
-            console.log(address, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
+            const approveTx = await collateralContract.approve(await contract.getAddress(), amount);
+            const approveReceipt = await approveTx.wait();
+            console.log("approve", approveReceipt);
+
+            const _returnDate = Math.floor(new Date(returnDate).getTime() / 1000);
+            // console.log(address, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
             const transaction = await contract.makeLendingOffer(
                 borrowerAddress, requestId, amount, interest, returnDate, collateralCurrencyAddress);
             const receipt = await transaction.wait();
@@ -125,12 +128,6 @@ const MakeOffer = (request) => {
             });
             console.log(error);
         } finally {
-            setCollateralCurrencyAddress("");
-            setAmount(0);
-            setInterest(0);
-            setReturnDate(0);
-            setRequestId("");
-            setRequestStatus("");
             handleClose();
         }
     }
