@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     useWeb3ModalAccount,
     useWeb3ModalProvider,
@@ -40,54 +40,57 @@ const MakeOffer = (request) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    async function handleChange(requestId) {
-        if (requestId === "" || requestId === "0" || requestId === undefined) {
-            setRequestId("");
-            return console.log("No request id found");
-        }
-
-        try {
-            const provider = getProvider(walletProvider);
-
-            const contract = await getProtocolContract(provider);
-            const request = await contract.getRequestById(requestId);
-
-            console.log(request);
-
-            setBorrowerAddress(request["1"]);
-            setAmount(request["2"].toString());
-            setInterest(request["3"].toString());
-            setReturnDate(Number(request["6"]));
-            setCollateralCurrencyAddress(request["8"]);
-
-            switch (request["9"].toString()) {
-                case "0":
-                    setRequestStatus("Open");
-                    break;
-                case "1":
-                    setRequestStatus("Serviced");
-                    break;
-                case "2":
-                    setRequestStatus("Closed");
-                    break;
+    useEffect(() => {
+        async function handleChange(requestId) {
+            if (requestId === "" || requestId === "0" || requestId === undefined) {
+                setRequestId("");
+                return console.log("No request id found");
             }
 
-        } catch (error) {
-            console.log(error);
-            toast.error("Request not found", {
-                position: "top-center",
-            });
-            console.log("Request not found");
+            try {
+                const provider = getProvider(walletProvider);
 
-            setBorrowerAddress("");
-            setAmount(0);
-            setInterest(0);
-            setReturnDate(1767139200 * 1000);
-            setRequestId("");
-            setCollateralCurrencyAddress("");
-            setRequestStatus("");
+                const contract = await getProtocolContract(provider);
+                const request = await contract.getRequestById(requestId);
+
+                // console.log(request);
+
+                setBorrowerAddress(request["1"]);
+                setAmount(request["2"].toString());
+                setInterest(request["3"].toString());
+                setReturnDate(Number(request["6"]));
+                setCollateralCurrencyAddress(request["8"]);
+
+                switch (request["9"].toString()) {
+                    case "0":
+                        setRequestStatus("Open");
+                        break;
+                    case "1":
+                        setRequestStatus("Serviced");
+                        break;
+                    case "2":
+                        setRequestStatus("Closed");
+                        break;
+                }
+
+            } catch (error) {
+                console.log(error);
+                toast.error("Request not found", {
+                    position: "top-center",
+                });
+                console.log("Request not found");
+
+                setBorrowerAddress("");
+                setAmount(0);
+                setInterest(0);
+                setReturnDate(1767139200 * 1000);
+                setRequestId("");
+                setCollateralCurrencyAddress("");
+                setRequestStatus("");
+            }
         }
-    }
+        handleChange(requestId);
+    }, [requestId])
 
     async function handleMakeOffer() {
         if (requestId === "" || requestId === "0" || requestId === undefined) {
@@ -132,8 +135,6 @@ const MakeOffer = (request) => {
         }
     }
 
-    handleChange(requestId);
-
     return (
         <div className="lg:w-[48%] md:w-[48%] w-[100%]">
             <button
@@ -148,7 +149,7 @@ const MakeOffer = (request) => {
             >
                 <Box sx={style}>
                     <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Make offer</p>
-                    <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
+                    <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} disabled />
                     <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
                     <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
                         value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals).toString()}

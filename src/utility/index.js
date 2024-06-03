@@ -33,3 +33,14 @@ export const convertStatus = (status) => {
             return "DEFEATED"
     }
 }
+
+export const convertService = (service) => {
+    switch (service) {
+        case "0":
+            return "OPEN"
+        case "1":
+            return "SERVICED"
+        case "2":
+            return "CLOSED"
+    }
+}
