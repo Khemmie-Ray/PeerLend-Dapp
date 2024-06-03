@@ -28,8 +28,8 @@ const style = {
   p: 4,
 };
 
-const ServiceRequest = () => {
-  const [requestId, setRequestId] = useState("");
+const ServiceRequest = (request) => {
+  const [requestId, setRequestId] = useState(request.id);
   const [tokenAdd, setTokenAdd] = useState("");
   const [borrower, setBorrower] = useState("");
   const [lender, setLender] = useState("");
@@ -45,10 +45,9 @@ const ServiceRequest = () => {
   const { chainId } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
 
-  async function handleChange(event) {
-    setRequestId(event.target.value);
+  async function handleChange(requestId) {
 
-    if (event.target.value === "" || event.target.value === "0" || event.target.value === undefined) {
+    if (requestId === "" || requestId === "0" || requestId === undefined) {
       setBorrower("");
       setLender("");
       setAmount("");
@@ -63,7 +62,7 @@ const ServiceRequest = () => {
     // const signer = await readWriteProvider.getSigner();
 
     const contract = getProtocolContract(readWriteProvider);
-    const requests = await contract.getRequestById(event.target.value);
+    const requests = await contract.getRequestById(requestId);
 
     // console.log("=====>", requests);
 
@@ -139,6 +138,8 @@ const ServiceRequest = () => {
     }
 
   };
+
+  handleChange(requestId);
 
   return (
     <div className="lg:w-[48%] md:w-[48%] w-[100%]">

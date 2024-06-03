@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     useWeb3ModalAccount,
     useWeb3ModalProvider,
@@ -26,10 +26,10 @@ const style = {
     p: 4,
 };
 
-const MakeOffer = () => {
+const MakeOffer = (request) => {
     const { walletProvider } = useWeb3ModalProvider();
     const { address } = useWeb3ModalAccount();
-    const [requestId, setRequestId] = useState("");
+    const [requestId, setRequestId] = useState(request.id);
     const [borrowerAddress, setBorrowerAddress] = useState("");
     const [amount, setAmount] = useState(0);
     const [interest, setInterest] = useState(0);
@@ -40,58 +40,57 @@ const MakeOffer = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    async function handleChange(event) {
-        if (event.target.value === "" || event.target.value === "0" || event.target.value === undefined) {
-            setRequestId("");
-            return console.log("No request id found");
-        }
-
-        const _requestId = event.target.value;
-        setRequestId(event.target.value);
-
-
-        try {
-            const provider = getProvider(walletProvider);
-
-            const contract = await getProtocolContract(provider);
-            const request = await contract.getRequestById(_requestId);
-
-            console.log(request);
-
-            setBorrowerAddress(request["1"]);
-            setAmount(request["2"].toString());
-            setInterest(request["3"].toString());
-            setReturnDate(Number(request["6"]));
-            setCollateralCurrencyAddress(request["8"]);
-
-            switch (request["9"].toString()) {
-                case "0":
-                    setRequestStatus("Open");
-                    break;
-                case "1":
-                    setRequestStatus("Serviced");
-                    break;
-                case "2":
-                    setRequestStatus("Closed");
-                    break;
+    useEffect(() => {
+        async function handleChange(requestId) {
+            if (requestId === "" || requestId === "0" || requestId === undefined) {
+                setRequestId("");
+                return console.log("No request id found");
             }
 
-        } catch (error) {
-            console.log(error);
-            toast.error("Request not found", {
-                position: "top-center",
-            });
-            console.log("Request not found");
+            try {
+                const provider = getProvider(walletProvider);
 
-            setBorrowerAddress("");
-            setAmount(0);
-            setInterest(0);
-            setReturnDate(1767139200 * 1000);
-            setRequestId("");
-            setCollateralCurrencyAddress("");
-            setRequestStatus("");
+                const contract = await getProtocolContract(provider);
+                const request = await contract.getRequestById(requestId);
+
+                // console.log(request);
+
+                setBorrowerAddress(request["1"]);
+                setAmount(request["2"].toString());
+                setInterest(request["3"].toString());
+                setReturnDate(Number(request["6"]));
+                setCollateralCurrencyAddress(request["8"]);
+
+                switch (request["9"].toString()) {
+                    case "0":
+                        setRequestStatus("Open");
+                        break;
+                    case "1":
+                        setRequestStatus("Serviced");
+                        break;
+                    case "2":
+                        setRequestStatus("Closed");
+                        break;
+                }
+
+            } catch (error) {
+                console.log(error);
+                toast.error("Request not found", {
+                    position: "top-center",
+                });
+                console.log("Request not found");
+
+                setBorrowerAddress("");
+                setAmount(0);
+                setInterest(0);
+                setReturnDate(1767139200 * 1000);
+                setRequestId("");
+                setCollateralCurrencyAddress("");
+                setRequestStatus("");
+            }
         }
-    }
+        handleChange(requestId);
+    }, [requestId])
 
     async function handleMakeOffer() {
         if (requestId === "" || requestId === "0" || requestId === undefined) {
@@ -104,15 +103,18 @@ const MakeOffer = () => {
         const provider = getProvider(walletProvider);
         const signer = await provider.getSigner();
 
-        // const collateralContract = await getErc20TokenContract(signer, collateralCurrencyAddress);
-
+        const collateralContract = await getErc20TokenContract(signer, collateralCurrencyAddress);
         const contract = await getProtocolContract(signer);
 
         // const _collateralAmount = ethers.parseUnits(collateralAmount, TokenList[collateralCurrencyAddress]?.decimals);
 
         try {
-            const _returnDate = new Date(returnDate).getTime() / 1000;
-            console.log(address, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
+            const approveTx = await collateralContract.approve(await contract.getAddress(), amount);
+            const approveReceipt = await approveTx.wait();
+            console.log("approve", approveReceipt);
+
+            const _returnDate = Math.floor(new Date(returnDate).getTime() / 1000);
+            // console.log(address, requestId, amount, interest, _returnDate, collateralCurrencyAddress)
             const transaction = await contract.makeLendingOffer(
                 borrowerAddress, requestId, amount, interest, returnDate, collateralCurrencyAddress);
             const receipt = await transaction.wait();
@@ -126,12 +128,6 @@ const MakeOffer = () => {
             });
             console.log(error);
         } finally {
-            setCollateralCurrencyAddress("");
-            setAmount(0);
-            setInterest(0);
-            setReturnDate(0);
-            setRequestId("");
-            setRequestStatus("");
             handleClose();
         }
     }
@@ -150,7 +146,7 @@ const MakeOffer = () => {
             >
                 <Box sx={style}>
                     <p className='lg:text-[24px] md:text-[24px] text-[18px] mb-4'>Make offer</p>
-                    <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} onChange={handleChange} />
+                    <input type="text" placeholder='Request Id' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={requestId} disabled />
                     <input type="text" placeholder='Interest' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" value={interest} onChange={(e) => setInterest(e.target.value)} />
                     <input type="text" placeholder='Amount' className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none"
                         value={ethers.formatUnits(amount.toString(), TokenList[collateralCurrencyAddress]?.decimals).toString()}
