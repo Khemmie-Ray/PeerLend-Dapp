@@ -38,6 +38,7 @@ const Dashboard = () => {
   const { address } = useWeb3ModalAccount();
   const [email, setEmail] = useState('');
   const [otpCode, setOtpCode] = useState(0);
+  const [otpMail, setOtpMail] = useState('');
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -205,7 +206,8 @@ const Dashboard = () => {
                     <input
                         type="text"
                         placeholder='Email'
-                        value={email}
+                        value={otpMail}
+                        onChange={(e) => setOtpMail(e.target.value)}
                         className="rounded-lg w-[100%] p-4 bg-[#ffffff23] backdrop-blur-lg mb-4 outline-none" />
                     <input
                         type="text"

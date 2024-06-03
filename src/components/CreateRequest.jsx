@@ -114,7 +114,7 @@ const CreateRequest = () => {
                 })}
               </Select>
             </FormControl>
-            <button className="bg-purple text-white py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] text-[16px] w-[100%] my-4" onClick={handleRequest}>Create &rarr;</button>
+            <button className="bg-bg-ash text-darkGrey py-2 px-4 rounded-lg lg:text-[20px] md:text-[20px] font-boldv text-[16px] w-[100%] my-4" onClick={handleRequest}>Create &rarr;</button>
           </Box>
         </Modal>
       </div>
